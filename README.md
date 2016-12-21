@@ -1,8 +1,12 @@
-ILRepack.MSBuild.Task
+ILRepack.Lib.MSBuild.Task
 =====================
 
 MSBuild task for [ILRepack](https://github.com/gluck/il-repack) which is an open-source alternative to ILMerge.
 
+Install via NuGet
+=================
+	Install-Package ILRepack.Lib.MSBuild.Task
+	
 Supported build tools
 =====================
 * MSBuild
