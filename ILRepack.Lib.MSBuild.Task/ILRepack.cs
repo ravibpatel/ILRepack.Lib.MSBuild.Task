@@ -50,6 +50,7 @@ namespace ILRepack.Lib.MSBuild.Task
         private string _logFile;
         private string _outputFile;
         private string _keyFile;
+        private string _keyContainer;
         private ITaskItem[] _assemblies = new ITaskItem[0];
         private ILRepacking.ILRepack.Kind _targetKind;
         private ILRepacking.ILRepack _ilMerger;
@@ -60,12 +61,21 @@ namespace ILRepack.Lib.MSBuild.Task
         #region Fields
 
         /// <summary>
-        /// Specifies a keyfile to sign the output assembly
+        /// Specifies a keyfile to sign the output assembly.
         /// </summary>
         public virtual string KeyFile
         {
             get { return _keyFile; }
             set { _keyFile = BuildPath(ConvertEmptyToNull(value)); }
+        }
+
+        /// <summary>
+        /// Specifies a KeyContainer to use.
+        /// </summary>
+        public virtual string KeyContainer
+        {
+            get { return _keyContainer; }
+            set { _keyContainer = BuildPath(ConvertEmptyToNull(value)); }
         }
 
         /// <summary>
@@ -78,17 +88,17 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        /// Merges types with identical names into one
+        /// Merges types with identical names into one.
         /// </summary>
         public virtual bool Union { get; set; }
 
         /// <summary>
-        /// Enable/disable symbol file generation
+        /// Enable/disable symbol file generation.
         /// </summary>
         public virtual bool DebugInfo { get; set; }
 
         /// <summary>
-        /// Take assembly attributes from the given assembly file
+        /// Take assembly attributes from the given assembly file.
         /// </summary>
         public virtual string AttributeFile
         {
@@ -97,18 +107,17 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        /// Copy assembly attributes (by default only the
-        /// primary assembly attributes are copied)
+        /// Copy assembly attributes (by default only the primary assembly attributes are copied).
         /// </summary>
         public virtual bool CopyAttributes { get; set; }
 
         /// <summary>
-        /// Allows multiple attributes (if type allows)
+        /// Allows multiple attributes (if type allows).
         /// </summary>
         public virtual bool AllowMultiple { get; set; }
 
         /// <summary>
-        /// Target assembly kind (Exe|Dll|WinExe|SameAsPrimaryAssembly)
+        /// Target assembly kind (Exe|Dll|WinExe|SameAsPrimaryAssembly).
         /// </summary>
         public virtual string TargetKind
         {
@@ -133,24 +142,27 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        /// Target platform (v1, v1.1, v2, v4 supported)
+        /// Target platform (v1, v1.1, v2, v4 supported).
         /// </summary>
         public virtual string TargetPlatformVersion { get; set; }
 
         /// <summary>
-        /// Merge assembly xml documentation
+        /// Path of Directory where target platform is located.
+        /// </summary>
+        public virtual string TargetPlatformDirectory { get; set; }
+
+        /// <summary>
+        /// Merge assembly xml documentation.
         /// </summary>
         public bool XmlDocumentation { get; set; }
 
         /// <summary>
-        /// List of paths to use as "include directories" when
-        /// attempting to merge assemblies
+        /// List of paths to use as "include directories" when attempting to merge assemblies.
         /// </summary>
         public virtual ITaskItem[] LibraryPath { get; set; } = new ITaskItem[0];
 
         /// <summary>
-        /// Set all types but the ones from
-        /// the first assembly 'internal'
+        /// Set all types but the ones from the first assembly 'internal'.
         /// </summary>
         public virtual bool Internalize { get; set; }
 
@@ -160,7 +172,7 @@ namespace ILRepack.Lib.MSBuild.Task
         public virtual ITaskItem[] InternalizeExclude { get; set; }
 
         /// <summary>
-        /// Output name for merged assembly
+        /// Output name for merged assembly.
         /// </summary>
         [Required]
         public virtual string OutputFile
@@ -168,12 +180,12 @@ namespace ILRepack.Lib.MSBuild.Task
             get { return _outputFile; }
             set
             {
-                _outputFile = BuildPath(ConvertEmptyToNull(value));
+                _outputFile = ConvertEmptyToNull(value);
             }
         }
 
         /// <summary>
-        /// List of assemblies that will be merged
+        /// List of assemblies that will be merged.
         /// </summary>
         [Required]
         public virtual ITaskItem[] InputAssemblies
@@ -183,46 +195,37 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        /// Set the keyfile, but don't sign the assembly
+        /// Set the keyfile, but don't sign the assembly.
         /// </summary>
         public virtual bool DelaySign { get; set; }
 
         /// <summary>
-        /// Allows to duplicate resources in output assembly
-        /// (by default they're ignored)
+        /// Allows to duplicate resources in output assembly (by default they're ignored).
         /// </summary>
         public virtual bool AllowDuplicateResources { get; set; }
 
         /// <summary>
-        /// Allows assemblies with Zero PeKind (but obviously only IL will get merged)
+        /// Allows assemblies with Zero PeKind (but obviously only IL will get merged).
         /// </summary>
         public virtual bool ZeroPeKind { get; set; }
 
         /// <summary>
-        /// Use as many CPUs as possible to merge the assemblies
+        /// Use as many CPUs as possible to merge the assemblies.
         /// </summary>
         public virtual bool Parallel { get; set; } = true;
 
         /// <summary>
-        /// Name of primary assembly when used in conjunction
-        /// with Internalize.
-        /// </summary>
-        //public virtual string PrimaryAssemblyFile { get; set; }
-
-        /// <summary>
-        /// Pause execution once completed (good for debugging)
+        /// Pause execution once completed (good for debugging).
         /// </summary>
         public virtual bool PauseBeforeExit { get; set; }
 
         /// <summary>
-        /// Additional debug information during merge that
-        /// will be outputted to LogFile
+        /// Additional debug information during merge that will be outputted to LogFile.
         /// </summary>
         public virtual bool Verbose { get; set; }
 
         /// <summary>
-        /// Allows (and resolves) file wildcards (e.g. `*`.dll)
-        /// in input assemblies
+        /// Allows (and resolves) file wildcards (e.g. `*`.dll) in input assemblies.
         /// </summary>
         public virtual bool Wildcards { get; set; }
 
@@ -230,14 +233,15 @@ namespace ILRepack.Lib.MSBuild.Task
 
         #region Public methods
         /// <summary>
-        /// 
+        ///     Executes ILRepack with specified options.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns true if its successful.</returns>
         public override bool Execute()
         {
             _repackOptions = new RepackOptions
             {
                 KeyFile = _keyFile,
+                KeyContainer = _keyContainer,
                 LogFile = _logFile,
                 Log = !string.IsNullOrEmpty(_logFile),
                 LogVerbose = Verbose,
@@ -248,6 +252,7 @@ namespace ILRepack.Lib.MSBuild.Task
                 AllowMultipleAssemblyLevelAttributes = AllowMultiple,
                 TargetKind = _targetKind,
                 TargetPlatformVersion = TargetPlatformVersion,
+                TargetPlatformDirectory = TargetPlatformDirectory,
                 XmlDocumentation = XmlDocumentation,
                 Internalize = Internalize,
                 DelaySign = DelaySign,
@@ -256,7 +261,7 @@ namespace ILRepack.Lib.MSBuild.Task
                 Parallel = Parallel,
                 PauseBeforeExit = PauseBeforeExit,
                 OutputFile = _outputFile,
-                AllowWildCards = Wildcards,
+                AllowWildCards = Wildcards
             };
             _ilMerger = new ILRepacking.ILRepack(_repackOptions);
 
@@ -275,7 +280,7 @@ namespace ILRepack.Lib.MSBuild.Task
                 }
             }
 
-            // Assemblies to be merged
+            // Assemblies to be merged.
             var assemblies = new string[_assemblies.Length];
             for (int i = 0; i < _assemblies.Length; i++)
             {
@@ -291,7 +296,7 @@ namespace ILRepack.Lib.MSBuild.Task
                 Log.LogMessage(MessageImportance.Normal, "Added assembly {0}", assemblies[i]);
             }
 
-            // List of assemblies that should not be internalized
+            // List of assemblies that should not be internalized.
             if (InternalizeExclude != null)
             {
                 var internalizeExclude = new string[InternalizeExclude.Length];
@@ -313,8 +318,7 @@ namespace ILRepack.Lib.MSBuild.Task
                             "Excluding assembly {0} from being internalized.", internalizeExclude[i]);
                     }
 
-                    // Create a temporary file with a list of assemblies that
-                    // should not be internalized.
+                    // Create a temporary file with a list of assemblies that should not be internalized.
                     _excludeFileTmpPath = Path.GetTempFileName();
                     File.WriteAllLines(_excludeFileTmpPath, internalizeExclude);
                     _repackOptions.ExcludeFile = _excludeFileTmpPath;
@@ -323,16 +327,16 @@ namespace ILRepack.Lib.MSBuild.Task
 
             _repackOptions.InputAssemblies = assemblies;
 
-            // Path that will be used when searching for assemblies to merge
+            // Path that will be used when searching for assemblies to merge.
             var searchPath = new List<string> { "." };
             searchPath.AddRange(LibraryPath.Select(iti => BuildPath(iti.ItemSpec)));
             _repackOptions.SearchDirectories = searchPath.ToArray();
 
-            // Attempt to merge assemblies
+            // Attempt to merge assemblies.
             try
             {
                 Log.LogMessage(MessageImportance.Normal, "Merging {0} assemb{1} to '{2}'.",
-                    _assemblies.Length, (_assemblies.Length != 1) ? "ies" : "y", _outputFile);
+                    _assemblies.Length, _assemblies.Length != 1 ? "ies" : "y", _outputFile);
                 _ilMerger.Repack();
             }
             catch (Exception e)
@@ -347,9 +351,9 @@ namespace ILRepack.Lib.MSBuild.Task
 
         #region Private methods
         /// <summary>
-        /// 
+        /// Converts empty string to null.
         /// </summary>
-        /// <param name="str"></param>
+        /// <param name="str">String to check for emptiness</param>
         /// <returns></returns>
         private static string ConvertEmptyToNull(string str)
         {
@@ -357,15 +361,14 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        /// 
+        /// Returns path respective to current working directory.
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">Relative path to current working directory</param>
         /// <returns></returns>
         private string BuildPath(string path)
         {
             var workDir = Directory.GetCurrentDirectory();
-            return (string.IsNullOrEmpty(path)) ? null :
-                Path.Combine(workDir, path);
+            return string.IsNullOrEmpty(path) ? null : Path.Combine(workDir, path);
         }
         #endregion
 

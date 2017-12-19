@@ -3,7 +3,7 @@ ILRepack.Lib.MSBuild.Task
 
 MSBuild task for [ILRepack](https://github.com/gluck/il-repack) which is an open-source alternative to ILMerge.
 
-Install via NuGet
+Install via NuGet [![NuGet](https://img.shields.io/nuget/v/ILRepack.Lib.MSBuild.Task.svg)](https://www.nuget.org/packages/ILRepack.Lib.MSBuild.Task/) [![NuGet](https://img.shields.io/nuget/dt/ILRepack.Lib.MSBuild.Task.svg)](https://www.nuget.org/packages/ILRepack.Lib.MSBuild.Task/)
 =================
 	Install-Package ILRepack.Lib.MSBuild.Task
 	
@@ -58,7 +58,15 @@ Task options
            KeyFile  
         </td>
         <td>
-            Specifies a keyfile to sign the output assembly
+            Specifies a KeyFile to sign the output assembly.
+        </td>
+    </tr>
+	<tr>
+        <td>
+           KeyContainer 
+        </td>
+        <td>
+            Specifies a KeyContainer to use.
         </td>
     </tr>
 	<tr>
@@ -66,7 +74,7 @@ Task options
            LogFile  
         </td>
         <td>
-           Specifies a logfile to output log information
+           Specifies a logfile to output log information.
         </td>
     </tr>
 	<tr>
@@ -74,7 +82,7 @@ Task options
            Union  
         </td>
         <td>
-           Merges types with identical names into one
+           Merges types with identical names into one.
         </td>
     </tr>
 	<tr>
@@ -82,7 +90,7 @@ Task options
             DebugInfo
         </td>
         <td>
-            Enable/disable symbol file generation
+            Enable/disable symbol file generation.
         </td>
     </tr>
 	<tr>
@@ -90,7 +98,7 @@ Task options
             AttributeFile 
         </td>
         <td>
-            Take assembly attributes from the given assembly file
+            Take assembly attributes from the given assembly file.
         </td>
     </tr>
 	<tr>
@@ -98,7 +106,7 @@ Task options
             CopyAttributes 
         </td>
         <td>
-            Copy assembly attributes
+            Copy assembly attributes.
         </td>
     </tr>
 	<tr>
@@ -106,7 +114,7 @@ Task options
             AllowMultiple 
         </td>
         <td>
-            Allows multiple attributes (if type allows)
+            Allows multiple attributes (if type allows).
         </td>
     </tr>
 	<tr>
@@ -114,7 +122,7 @@ Task options
             TargetKind 
         </td>
         <td>
-            Target assembly kind (Exe|Dll|WinExe|SameAsPrimaryAssembly)
+            Target assembly kind (Exe|Dll|WinExe|SameAsPrimaryAssembly).
         </td>
     </tr>
 	<tr>
@@ -122,7 +130,15 @@ Task options
             TargetPlatformVersion 
         </td>
         <td>
-            Target platform (v1, v1.1, v2, v4 supported)
+            Target platform (v1, v1.1, v2, v4 supported).
+        </td>
+    </tr>
+	<tr>
+        <td>
+            TargetPlatformDirectory
+        </td>
+        <td>
+            Path of Directory where target platform is located.
         </td>
     </tr>
 	<tr>
@@ -130,7 +146,7 @@ Task options
             XmlDocumentation 
         </td>
         <td>
-            Merge assembly xml documentation
+            Merge assembly xml documentation.
         </td>
     </tr>
 	<tr>
@@ -138,7 +154,7 @@ Task options
             LibraryPath 
         </td>
         <td>
-            List of paths to use as "include directories" when attempting to merge assemblies
+            List of paths to use as "include directories" when attempting to merge assemblies.
         </td>
     </tr>
 	<tr>
@@ -146,7 +162,7 @@ Task options
             Internalize 
         </td>
         <td>
-            Set all types but the ones from the first assembly 'internal'
+            Set all types but the ones from the first assembly 'internal'.
         </td>
     </tr>
 	<tr>
@@ -162,7 +178,7 @@ Task options
             OutputFile 
         </td>
         <td>
-            Output name for merged assembly
+            Output name for merged assembly.
         </td>
     </tr>
 	<tr>
@@ -170,7 +186,7 @@ Task options
             InputAssemblies 
         </td>
         <td>
-            List of assemblies that will be merged
+            List of assemblies that will be merged.
         </td>
     </tr>
 	<tr>
@@ -178,7 +194,7 @@ Task options
             DelaySign 
         </td>
         <td>
-            Set the keyfile, but don't sign the assembly
+            Set the keyfile, but don't sign the assembly.
         </td>
     </tr>
 	<tr>
@@ -186,7 +202,7 @@ Task options
             AllowDuplicateResources 
         </td>
         <td>
-            Allows to duplicate resources in output assembly 
+            Allows to duplicate resources in output assembly.
         </td>
     </tr>
 	<tr>
@@ -194,7 +210,7 @@ Task options
             ZeroPeKind 
         </td>
         <td>
-            Allows assemblies with Zero PeKind (but obviously only IL will get merged)
+            Allows assemblies with Zero PeKind (but obviously only IL will get merged).
         </td>
     </tr>
 	<tr>
@@ -202,7 +218,7 @@ Task options
             Parallel 
         </td>
         <td>
-            Use as many CPUs as possible to merge the assemblies
+            Use as many CPUs as possible to merge the assemblies.
         </td>
     </tr>
 	<tr>
@@ -210,7 +226,7 @@ Task options
             Verbose 
         </td>
         <td>
-            Additional debug information during merge that will be outputted to LogFile
+            Additional debug information during merge that will be outputted to LogFile.
         </td>
     </tr>
 	<tr>
@@ -218,7 +234,7 @@ Task options
             Wildcards 
         </td>
         <td>
-            Allows (and resolves) file wildcards (e.g. `*`.dll) in input assemblies
+            Allows (and resolves) file wildcards (e.g. `*`.dll) in input assemblies.
         </td>
     </tr>
 </table>
