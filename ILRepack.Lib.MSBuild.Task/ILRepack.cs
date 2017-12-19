@@ -37,6 +37,7 @@ using System.IO;
 using System.Linq;
 using ILRepacking;
 using Microsoft.Build.Framework;
+using System.Diagnostics;
 
 namespace ILRepack.Lib.MSBuild.Task
 {
@@ -335,9 +336,17 @@ namespace ILRepack.Lib.MSBuild.Task
             // Attempt to merge assemblies.
             try
             {
-                Log.LogMessage(MessageImportance.Normal, "Merging {0} assemb{1} to '{2}'.",
+                Log.LogMessage(MessageImportance.High, "Merging {0} assemb{1} to '{2}'.",
                     _assemblies.Length, _assemblies.Length != 1 ? "ies" : "y", _outputFile);
+
+                // Measure performance
+                Stopwatch stopWatch = new Stopwatch();
+                stopWatch.Start();
+
                 _ilMerger.Repack();
+                stopWatch.Stop();
+
+                Log.LogMessage(MessageImportance.High, "Merge succeeded in {0}", stopWatch.Elapsed);
             }
             catch (Exception e)
             {
