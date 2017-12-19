@@ -335,9 +335,10 @@ namespace ILRepack.Lib.MSBuild.Task
             // Attempt to merge assemblies.
             try
             {
-                Log.LogMessage(MessageImportance.Normal, "Merging {0} assemb{1} to '{2}'.",
+                Log.LogMessage(MessageImportance.High, "Merging {0} assemb{1} to '{2}'.",
                     _assemblies.Length, _assemblies.Length != 1 ? "ies" : "y", _outputFile);
                 _ilMerger.Repack();
+                Log.LogMessage(MessageImportance.High, "Merge succeeded");
             }
             catch (Exception e)
             {
