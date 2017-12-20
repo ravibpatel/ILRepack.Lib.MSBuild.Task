@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<UsingTask AssemblyFile="$(SolutionDir)\packages\ILRepack.Lib.MSBuild.Task.2.0.15.1\build\ILRepack.Lib.MSBuild.Task.dll" TaskName="ILRepack" />
+	<Target Name="AfterBuild" Condition="'$(Configuration)' == 'Release'">
+ 
+	<ItemGroup>
+		<InputAssemblies Include="$(OutputPath)ILRepack.Lib.MSBuild.Task.dll" />
+		<InputAssemblies Include="$(OutputPath)ILRepack.dll" />
+	</ItemGroup>
+
+	<ILRepack
+		Parallel="true"
+		DebugInfo="true"
+		AllowDuplicateResources="false"
+		InputAssemblies="@(InputAssemblies)"
+		TargetKind="SameAsPrimaryAssembly"
+    KeyFile="$(ProjectDir)$(AssemblyName).snk"
+		OutputFile="$(OutputPath)$(AssemblyName).dll"
+	/>
+</Target>
+<Target 
+    AfterTargets="AfterBuild"
+    Name="CleanReferenceCopyLocalPaths"
+	Condition="'$(Configuration)' == 'Release'"	>
+    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
+	<ItemGroup>
+		<Directories Include="$([System.IO.Directory]::GetDirectories('$(OutDir)%(DestinationSubDirectory)', '*', System.IO.SearchOption.AllDirectories))" />
+		<Directories>
+			<Files>$([System.IO.Directory]::GetFiles("%(Directories.Identity)", "*", System.IO.SearchOption.AllDirectories).get_Length())</Files>
+		</Directories>
+	</ItemGroup>        
+	<RemoveDir Directories="@(Directories)" Condition="%(Files)=='0'" />
+</Target>
+</Project>

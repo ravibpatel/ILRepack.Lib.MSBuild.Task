@@ -288,13 +288,13 @@ namespace ILRepack.Lib.MSBuild.Task
                 assemblies[i] = _assemblies[i].ItemSpec;
                 if (string.IsNullOrEmpty(assemblies[i]))
                 {
-                    throw new Exception("Invalid assembly path on item index " + i);
+                    throw new Exception($"Invalid assembly path on item index {i}");
                 }
                 if (!File.Exists(assemblies[i]) && !File.Exists(BuildPath(assemblies[i])))
                 {
                     throw new Exception($"Unable to resolve assembly '{assemblies[i]}'");
                 }
-                Log.LogMessage(MessageImportance.Normal, "Added assembly {0}", assemblies[i]);
+                Log.LogMessage(MessageImportance.High, "Added assembly '{0}'", assemblies[i]);
             }
 
             // List of assemblies that should not be internalized.
@@ -308,15 +308,14 @@ namespace ILRepack.Lib.MSBuild.Task
                         internalizeExclude[i] = InternalizeExclude[i].ItemSpec;
                         if (string.IsNullOrEmpty(internalizeExclude[i]))
                         {
-                            throw new Exception("Invalid assembly internalize" +
-                                                " exclude path on item index " + i);
+                            throw new Exception($"Invalid assembly internalize exclude path on item index {i}");
                         }
                         if (!File.Exists(assemblies[i]) && !File.Exists(BuildPath(assemblies[i])))
                         {
                             throw new Exception($"Unable to resolve assembly '{assemblies[i]}'");
                         }
-                        Log.LogMessage(MessageImportance.Normal,
-                            "Excluding assembly {0} from being internalized.", internalizeExclude[i]);
+                        Log.LogMessage(MessageImportance.High,
+                            "Excluding assembly '{0}' from being internalized", internalizeExclude[i]);
                     }
 
                     // Create a temporary file with a list of assemblies that should not be internalized.
@@ -336,7 +335,7 @@ namespace ILRepack.Lib.MSBuild.Task
             // Attempt to merge assemblies.
             try
             {
-                Log.LogMessage(MessageImportance.High, "Merging {0} assemb{1} to '{2}'.",
+                Log.LogMessage(MessageImportance.High, "Merging {0} assemb{1} to '{2}'",
                     _assemblies.Length, _assemblies.Length != 1 ? "ies" : "y", _outputFile);
 
                 // Measure performance
@@ -346,7 +345,7 @@ namespace ILRepack.Lib.MSBuild.Task
                 _ilMerger.Repack();
                 stopWatch.Stop();
 
-                Log.LogMessage(MessageImportance.High, "Merge succeeded in {0}", stopWatch.Elapsed);
+                Log.LogMessage(MessageImportance.High, "Merge succeeded in {0} s", stopWatch.Elapsed.TotalSeconds);
             }
             catch (Exception e)
             {
