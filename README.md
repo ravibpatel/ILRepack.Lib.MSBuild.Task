@@ -1,48 +1,91 @@
-ILRepack.Lib.MSBuild.Task
-=====================
+# ILRepack.Lib.MSBuild.Task
 
 MSBuild task for [ILRepack](https://github.com/gluck/il-repack) which is an open-source alternative to ILMerge.
 
-Install via NuGet [![NuGet](https://img.shields.io/nuget/v/ILRepack.Lib.MSBuild.Task.svg)](https://www.nuget.org/packages/ILRepack.Lib.MSBuild.Task/) [![NuGet](https://img.shields.io/nuget/dt/ILRepack.Lib.MSBuild.Task.svg)](https://www.nuget.org/packages/ILRepack.Lib.MSBuild.Task/)
-=================
-	Install-Package ILRepack.Lib.MSBuild.Task
-	
-Supported build tools
-=====================
+## Install via NuGet [![NuGet](https://img.shields.io/nuget/v/ILRepack.Lib.MSBuild.Task.svg)](https://www.nuget.org/packages/ILRepack.Lib.MSBuild.Task/) [![NuGet](https://img.shields.io/nuget/dt/ILRepack.Lib.MSBuild.Task.svg)](https://www.nuget.org/packages/ILRepack.Lib.MSBuild.Task/)
+
+      Install-Package ILRepack.Lib.MSBuild.Task
+
+## Supported build tools
+
 * MSBuild
 
-Usage - MSBuild
-============
-```
+## Usage
+
+You just need to install NuGet package to merge all your project dependencies. If you want to customize the process then you can create a file named "ILRepack.targets" in your project folder. You can create it like shown below.
+
+### Example "ILRepack.targets"
+
+```xml
 <!-- ILRepack -->
-<Target Name="AfterBuild" Condition="'$(Configuration)' == 'Release'">
-	
-   <ItemGroup>
-	<InputAssemblies Include="$(OutputPath)\ExampleAssemblyToMerge1.dll" />
-	<InputAssemblies Include="$(OutputPath)\ExampleAssemblyToMerge2.dll" />
-	<InputAssemblies Include="$(OutputPath)\ExampleAssemblyToMerge3.dll" />
-   </ItemGroup>
-   
-   <ItemGroup>
-    <!-- Must be a fully qualified name -->
-    <DoNotInternalizeAssemblies Include="ExampleAssemblyToMerge3" />
-   </ItemGroup>
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Target Name="ILRepacker" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
 
-   <ILRepack 
-    Parallel="true"
-    Internalize="true"
-	InternalizeExclude="@(DoNotInternalizeAssemblies)"
-	InputAssemblies="@(InputAssemblies)"
-	TargetKind="Dll"
-	OutputFile="$(OutputPath)\$(AssemblyName).dll"
-   />
+    <ItemGroup>
+        <InputAssemblies Include="$(OutputPath)\ExampleAssemblyToMerge1.dll" />
+        <InputAssemblies Include="$(OutputPath)\ExampleAssemblyToMerge2.dll" />
+        <InputAssemblies Include="$(OutputPath)\ExampleAssemblyToMerge3.dll" />
+    </ItemGroup>
 
-</Target>
+    <ItemGroup>
+        <!-- Must be a fully qualified name -->
+        <DoNotInternalizeAssemblies Include="ExampleAssemblyToMerge3" />
+    </ItemGroup>
+
+    <ILRepack
+        Parallel="true"
+        Internalize="true"
+        InternalizeExclude="@(DoNotInternalizeAssemblies)"
+        InputAssemblies="@(InputAssemblies)"
+        TargetKind="Dll"
+        OutputFile="$(OutputPath)\$(AssemblyName).dll"
+    />
+
+    </Target>
+</Project>
 <!-- /ILRepack -->
 ```
 
-Task options
-=======================
+## Configuration
+
+You need to create "ILRepack.Config.props" file in your project folder to configure the behavior of ILRepack.Lib.MSBuild.Task.
+
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+  </PropertyGroup>
+</Project>
+```
+
+You can specify following options inside the &lt;PropertyGroup&gt; element to configure the behavior of the ILRepack task.
+
+### Specify your custom Targets file path
+
+If you don't want to add "ILRepack.targets" file in your project folder then you can specify your targets file path as shown below.
+
+```xml
+<ILRepackTargetsFile>$([System.IO.Path]::GetDirectoryName($(MSBuildProjectDirectory)))\ILRepack.targets</ILRepackTargetsFile>
+```
+
+### Specify Key File to use for signing
+
+You can specify the path of the SNK file you want to use for signing your assembly as shown below. This configuration option only applies if you are using default targets file provided in NuGet package.
+
+```xml
+<KeyFile>$(ProjectDir)ILRepack.snk</KeyFile>
+```
+
+### Specify whether to clear directory after merging
+
+If you are using default targets file then you may notice that it clears Output directory after merging dependencies. You can turn this functionality off by setting ClearOutputDirectory to False as shown below.
+
+```xml
+<ClearOutputDirectory>False</ClearOutputDirectory>
+```
+
+## Task options
 
 <table border="0" cellpadding="3" cellspacing="0" width="90%" id="tasksTable">
     <tr>
@@ -55,7 +98,7 @@ Task options
     </tr>
 	<tr>
         <td>
-           KeyFile  
+           KeyFile
         </td>
         <td>
             Specifies a KeyFile to sign the output assembly.
@@ -63,7 +106,7 @@ Task options
     </tr>
 	<tr>
         <td>
-           KeyContainer 
+           KeyContainer
         </td>
         <td>
             Specifies a KeyContainer to use.
@@ -71,7 +114,7 @@ Task options
     </tr>
 	<tr>
         <td>
-           LogFile  
+           LogFile
         </td>
         <td>
            Specifies a logfile to output log information.
@@ -79,7 +122,7 @@ Task options
     </tr>
 	<tr>
         <td>
-           Union  
+           Union
         </td>
         <td>
            Merges types with identical names into one.
@@ -95,7 +138,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            AttributeFile 
+            AttributeFile
         </td>
         <td>
             Take assembly attributes from the given assembly file.
@@ -103,7 +146,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            CopyAttributes 
+            CopyAttributes
         </td>
         <td>
             Copy assembly attributes.
@@ -111,7 +154,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            AllowMultiple 
+            AllowMultiple
         </td>
         <td>
             Allows multiple attributes (if type allows).
@@ -119,7 +162,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            TargetKind 
+            TargetKind
         </td>
         <td>
             Target assembly kind (Exe|Dll|WinExe|SameAsPrimaryAssembly).
@@ -127,7 +170,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            TargetPlatformVersion 
+            TargetPlatformVersion
         </td>
         <td>
             Target platform (v1, v1.1, v2, v4 supported).
@@ -143,7 +186,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            XmlDocumentation 
+            XmlDocumentation
         </td>
         <td>
             Merge assembly xml documentation.
@@ -151,7 +194,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            LibraryPath 
+            LibraryPath
         </td>
         <td>
             List of paths to use as "include directories" when attempting to merge assemblies.
@@ -159,7 +202,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            Internalize 
+            Internalize
         </td>
         <td>
             Set all types but the ones from the first assembly 'internal'.
@@ -167,7 +210,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            InternalizeExclude 
+            InternalizeExclude
         </td>
         <td>
             Assemblies that will not be internalized.
@@ -175,7 +218,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            OutputFile 
+            OutputFile
         </td>
         <td>
             Output name for merged assembly.
@@ -183,7 +226,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            InputAssemblies 
+            InputAssemblies
         </td>
         <td>
             List of assemblies that will be merged.
@@ -191,7 +234,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            DelaySign 
+            DelaySign
         </td>
         <td>
             Set the keyfile, but don't sign the assembly.
@@ -199,7 +242,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            AllowDuplicateResources 
+            AllowDuplicateResources
         </td>
         <td>
             Allows to duplicate resources in output assembly.
@@ -207,7 +250,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            ZeroPeKind 
+            ZeroPeKind
         </td>
         <td>
             Allows assemblies with Zero PeKind (but obviously only IL will get merged).
@@ -215,7 +258,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            Parallel 
+            Parallel
         </td>
         <td>
             Use as many CPUs as possible to merge the assemblies.
@@ -223,7 +266,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            Verbose 
+            Verbose
         </td>
         <td>
             Additional debug information during merge that will be outputted to LogFile.
@@ -231,7 +274,7 @@ Task options
     </tr>
 	<tr>
         <td>
-            Wildcards 
+            Wildcards
         </td>
         <td>
             Allows (and resolves) file wildcards (e.g. `*`.dll) in input assemblies.

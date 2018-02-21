@@ -2,7 +2,7 @@
  * Copyright (c) 2004, Evain Jb (jb@evain.net)
  * Modified 2007 Marcus Griep (neoeinstein+boo@gmail.com)
  * Modified 2013 Peter Sunde (peter.sunde@gmail.com)
- * Modified 2016 Ravi Patel (www.rbsoft.org)
+ * Modified 2016-2018 Ravi Patel (www.rbsoft.org)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,10 +41,8 @@ using System.Diagnostics;
 
 namespace ILRepack.Lib.MSBuild.Task
 {
-
     public class ILRepack : Microsoft.Build.Utilities.Task, IDisposable
     {
-
         #region Variables
 
         private string _attributeFile;
