@@ -66,7 +66,7 @@ You can specify following options inside the &lt;PropertyGroup&gt; element to co
 If you don't want to add "ILRepack.targets" file in your project folder then you can specify your targets file path as shown below.
 
 ```xml
-<ILRepackTargetsFile>$([System.IO.Path]::GetDirectoryName($(MSBuildProjectDirectory)))\ILRepack.targets</ILRepackTargetsFile>
+<ILRepackTargetsFile>$(SolutionDir)ILRepack.targets</ILRepackTargetsFile>
 ```
 
 ### Specify Key File to use for signing
