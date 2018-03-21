@@ -10,7 +10,7 @@
   </Choose>
   <UsingTask AssemblyFile="$(MSBuildThisFileDirectory)ILRepack.Lib.MSBuild.Task.dll" TaskName="ILRepack" />
   <Import Project="$(ILRepackTargetsFile)" Condition="Exists('$(ILRepackTargetsFile)')" />
-  <Target Name="ILRepack" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' and !Exists('$(ILRepackTargetsFile)')">
+  <Target Name="ILRepack" AfterTargets="Build" Condition="$(Configuration.Contains('Release')) and !Exists('$(ILRepackTargetsFile)')">
     <ItemGroup>
       <InputAssemblies Include="$(OutputPath)$(TargetName)$(TargetExt)"/>
       <InputAssemblies Include="$(OutputPath)*.dll" Exclude="$(OutputPath)$(TargetName)$(TargetExt)"/>
@@ -29,7 +29,7 @@
   <Target
     AfterTargets="ILRepack"
     Name="CleanReferenceCopyLocalPaths"
-    Condition="'$(Configuration)' == 'Release' and !Exists('$(ILRepackTargetsFile)') and '$(ClearOutputDirectory)' != 'False'">
+    Condition="$(Configuration.Contains('Release')) and !Exists('$(ILRepackTargetsFile)') and '$(ClearOutputDirectory)' != 'False'">
     <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
     <ItemGroup>
       <Directories Include="$([System.IO.Directory]::GetDirectories('$(OutDir)%(DestinationSubDirectory)', '*', System.IO.SearchOption.AllDirectories))" />
