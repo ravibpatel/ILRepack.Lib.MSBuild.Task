@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+  </PropertyGroup>
   <Import Project="$(ProjectDir)ILRepack.Config.props" Condition="Exists('$(ProjectDir)ILRepack.Config.props')" />
   <Choose>
     <When Condition="'$(ILRepackTargetsFile)' == ''">
@@ -18,6 +20,10 @@
     </ItemGroup>  
   </Target>
   <Target Name="ILRepack" AfterTargets="$(ILRepackAfterTargets)" DependsOnTargets="$(ILRepackDependsOn)" BeforeTargets="$(ILRepackBeforeTargets)" Condition=" !Exists('$(ILRepackTargetsFile)') ">
+    <PropertyGroup>
+      <ILRepackOutputAssembly Condition=" '$(ILRepackOutputAssembly)' == '' ">$(OutputPath)$(TargetName)$(TargetExt)</ILRepackOutputAssembly>
+    </PropertyGroup>
+    <MakeDir Directories="$([System.IO.Path]::GetDirectoryName($(ILRepackOutputAssembly)))"/>
     <ILRepack
       Parallel="true"
       DebugInfo="true"
@@ -25,7 +31,7 @@
       InputAssemblies="@(ILRepackInputAssemblies)"
       TargetKind="SameAsPrimaryAssembly"
       KeyFile="$(KeyFile)"
-      OutputFile="$(OutputPath)$(TargetName)$(TargetExt)"
+      OutputFile="$(ILRepackOutputAssembly)"
 	  LibraryPath="@(ILRepackLibraryPath)"
     />
   </Target>
