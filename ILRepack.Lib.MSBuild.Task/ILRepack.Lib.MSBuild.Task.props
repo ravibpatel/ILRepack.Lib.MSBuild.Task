@@ -9,6 +9,6 @@
     <ILRepackDependsOn Condition=" '$(ILRepackDependsOn)' == '' ">ILRepackGetInputAssemblies</ILRepackDependsOn>
     <ILRepackAfterTargets Condition=" '$(ILRepackAfterTargets)' == '' And '$(Configuration)' == 'Release' ">Build</ILRepackAfterTargets>
     <ILRepackBeforeTargets Condition=" '$(ILRepackBeforeTargets)' == '' "></ILRepackBeforeTargets>
-	<CleanReferenceCopyLocalPathsAfterTargets Condition=" '$(CleanReferenceCopyLocalPathsAfterTargets)' == '' And '$(Configuration)' == 'Release' And '$(ClearOutputDirectory)' != 'False' ">ILRepack</CleanReferenceCopyLocalPathsAfterTargets>
+    <CleanReferenceCopyLocalPathsAfterTargets Condition=" '$(CleanReferenceCopyLocalPathsAfterTargets)' == '' And '$(Configuration)' == 'Release' And '$(ClearOutputDirectory)' != 'False' ">ILRepack</CleanReferenceCopyLocalPathsAfterTargets>
   </PropertyGroup>
 </Project>
