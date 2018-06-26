@@ -306,14 +306,10 @@ namespace ILRepack.Lib.MSBuild.Task
                         internalizeExclude[i] = InternalizeExclude[i].ItemSpec;
                         if (string.IsNullOrEmpty(internalizeExclude[i]))
                         {
-                            throw new Exception($"Invalid assembly internalize exclude path on item index {i}");
-                        }
-                        if (!File.Exists(assemblies[i]) && !File.Exists(BuildPath(assemblies[i])))
-                        {
-                            throw new Exception($"Unable to resolve assembly '{assemblies[i]}'");
+                            throw new Exception($"Invalid internalize exclude pattern at item index {i}. Pattern cannot be blank.");
                         }
                         Log.LogMessage(MessageImportance.High,
-                            "Excluding assembly '{0}' from being internalized", internalizeExclude[i]);
+                            "Excluding namespaces/types matching pattern '{0}' from being internalized", internalizeExclude[i]);
                     }
 
                     // Create a temporary file with a list of assemblies that should not be internalized.
