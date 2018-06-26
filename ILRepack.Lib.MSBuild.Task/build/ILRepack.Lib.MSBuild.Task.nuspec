@@ -11,7 +11,7 @@
     <projectUrl>https://github.com/ravibpatel/ILRepack.Lib.MSBuild.Task</projectUrl>
     <description>MSBuild task for ILRepack which is an open-source alternative to ILMerge. This library uses ILRepack.lib so it is easier to upgrade.</description>
     <summary>MSBuild task for ILRepack which is an open-source alternative to ILMerge.</summary>
-    <releaseNotes>//TODO</releaseNotes>
+    <releaseNotes>https://github.com/ravibpatel/ILRepack.Lib.MSBuild.Task/releases</releaseNotes>
     <copyright>RBSoft</copyright>
     <language>en-US</language>
     <tags>ILRepack,MSBuild,ILMerge alternative,merge assemblies</tags>

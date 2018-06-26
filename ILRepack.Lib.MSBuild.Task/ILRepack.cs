@@ -295,7 +295,7 @@ namespace ILRepack.Lib.MSBuild.Task
                 Log.LogMessage(MessageImportance.High, "Added assembly '{0}'", assemblies[i]);
             }
 
-            // List of assemblies that should not be internalized.
+            // List of regex to compare against FullName of types NOT to internalize
             if (InternalizeExclude != null)
             {
                 var internalizeExclude = new string[InternalizeExclude.Length];
