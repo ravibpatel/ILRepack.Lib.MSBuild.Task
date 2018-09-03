@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ILRepack.Lib.MSBuild.Task")]
+[assembly: AssemblyTitle("ILRepack.Lib.MSBuild")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("RBSoft")]
-[assembly: AssemblyProduct("ILRepack.Lib.MSBuild.Task")]
-[assembly: AssemblyCopyright("Copyright © 2016-2018 RBSoft")]
+[assembly: AssemblyCompany("Alex Vostres")]
+[assembly: AssemblyProduct("ILRepack.Lib.MSBuild")]
+[assembly: AssemblyCopyright("Copyright © 2018 Alex Vostres")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.0.15.4")]
-[assembly: AssemblyFileVersion("2.0.15.4")]
+[assembly: AssemblyVersion("2.1.0.0")]
+[assembly: AssemblyFileVersion("2.1.0.0")]

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>ILRepack.Lib.MSBuild</id>
+    <version>2.1.0.0</version>
+    <title>ILRepack.Lib.MSBuild</title>
+    <authors>Alex Vostres</authors>
+    <owners>Alex Vostres</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/Alexx999/ILRepack.Lib.MSBuild.Task/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/Alexx999/ILRepack.Lib.MSBuild.Task</projectUrl>
+    <description>MSBuild task for ILRepack which is an open-source alternative to ILMerge. This library uses Cecil 0.10 to resolve numerous issues</description>
+    <summary>MSBuild task for ILRepack which is an open-source alternative to ILMerge.</summary>
+    <copyright>Alex Vostres 2018</copyright>
+    <language>en-US</language>
+    <tags>ILRepack,MSBuild,ILMerge alternative,merge assemblies</tags>
+  </metadata>
+</package>

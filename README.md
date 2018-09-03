@@ -1,10 +1,12 @@
-# ILRepack.Lib.MSBuild.Task
+# ILRepack.Lib.MSBuild
 
-MSBuild task for [ILRepack](https://github.com/gluck/il-repack) which is an open-source alternative to ILMerge.
+[![Build status](https://ci.appveyor.com/api/projects/status/2gw22x51dcnl4in9?svg=true)](https://ci.appveyor.com/project/Alexx999/ilrepack-lib-msbuild-task)
 
-## Install via NuGet [![NuGet](https://img.shields.io/nuget/v/ILRepack.Lib.MSBuild.Task.svg)](https://www.nuget.org/packages/ILRepack.Lib.MSBuild.Task/) [![NuGet](https://img.shields.io/nuget/dt/ILRepack.Lib.MSBuild.Task.svg)](https://www.nuget.org/packages/ILRepack.Lib.MSBuild.Task/)
+MSBuild task for [ILRepack](https://github.com/Alexx999/il-repack) which is an open-source alternative to ILMerge.
 
-      Install-Package ILRepack.Lib.MSBuild.Task
+## Install via NuGet [![NuGet](https://img.shields.io/nuget/v/ILRepack.Lib.MSBuild.svg)](https://www.nuget.org/packages/ILRepack.Lib.MSBuild/) [![NuGet](https://img.shields.io/nuget/dt/ILRepack.Lib.MSBuild.svg)](https://www.nuget.org/packages/ILRepack.Lib.MSBuild/)
+
+      Install-Package ILRepack.Lib.MSBuild
 
 ## Supported build tools
 

@@ -39,7 +39,7 @@ using ILRepacking;
 using Microsoft.Build.Framework;
 using System.Diagnostics;
 
-namespace ILRepack.Lib.MSBuild.Task
+namespace ILRepack.Lib.MSBuild
 {
     public class ILRepack : Microsoft.Build.Utilities.Task, IDisposable
     {
