@@ -262,6 +262,7 @@ namespace ILRepack.Lib.MSBuild
                 OutputFile = _outputFile,
                 AllowWildCards = Wildcards
             };
+
             _ilMerger = new ILRepacking.ILRepack(_repackOptions);
 
             // Attempt to create output directory if it does not exist.
@@ -347,7 +348,9 @@ namespace ILRepack.Lib.MSBuild
             }
             catch (Exception e)
             {
-                Log.LogErrorFromException(e);
+                _ilMerger?.Dispose();
+                _ilMerger = null;
+                Log.LogErrorFromException(e, true);
                 return false;
             }
 
@@ -381,6 +384,7 @@ namespace ILRepack.Lib.MSBuild
         #region IDisposable
         public void Dispose()
         {
+            _ilMerger?.Dispose();
             // Remove temporary exclude file
             if (File.Exists(_excludeFileTmpPath))
             {
