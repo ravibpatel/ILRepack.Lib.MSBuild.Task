@@ -26,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>build\build\</OutputPath>
+    <OutputPath>nuget\tools\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -57,14 +57,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="build\ILRepack.Lib.MSBuild.nuspec" />
+    <None Include="nuget\ILRepack.Lib.MSBuild.nuspec" />
     <None Include="ILRepack.Config.props">
       <SubType>Designer</SubType>
     </None>
     <None Include="ILRepack.Lib.MSBuild.snk" />
-    <None Include="ILRepack.Lib.MSBuild.targets">
+    <None Include="nuget\build\ILRepack.Lib.MSBuild.targets">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

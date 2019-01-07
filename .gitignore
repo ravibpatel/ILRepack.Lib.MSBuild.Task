@@ -212,3 +212,4 @@ _Pvt_Extensions/
 ModelManifest.xml
 
 *.snk
+/ILRepack.Lib.MSBuild/nuget/tools
