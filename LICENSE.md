@@ -4,6 +4,7 @@ License
 - Modified 2007 Marcus Griep (neoeinstein+boo@gmail.com)
 - Modified 2013 Peter Sunde (peter.sunde@gmail.com)
 - Modified 2016 Ravi Patel (www.rbsoft.org)
+- Modified 2018-2019 Alexander Vostres (alex.vostres@gmail.com)
 
 All rights reserved.
 

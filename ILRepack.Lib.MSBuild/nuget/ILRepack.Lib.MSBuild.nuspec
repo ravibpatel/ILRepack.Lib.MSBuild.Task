@@ -7,11 +7,11 @@
     <authors>Alex Vostres</authors>
     <owners>Alex Vostres</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/Alexx999/ILRepack.Lib.MSBuild.Task/blob/master/LICENSE.md</licenseUrl>
+    <license type="expression">BSD-3-Clause</license>
     <projectUrl>https://github.com/Alexx999/ILRepack.Lib.MSBuild.Task</projectUrl>
     <description>MSBuild task for ILRepack which is an open-source alternative to ILMerge. This library uses Cecil 0.10 to resolve numerous issues</description>
     <summary>MSBuild task for ILRepack which is an open-source alternative to ILMerge.</summary>
-    <copyright>Alex Vostres 2018</copyright>
+    <copyright>Alex Vostres 2018-2019</copyright>
     <language>en-US</language>
     <tags>ILRepack,MSBuild,ILMerge alternative,merge assemblies</tags>
   </metadata>
