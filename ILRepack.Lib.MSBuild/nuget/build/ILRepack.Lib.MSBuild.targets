@@ -20,7 +20,7 @@
         <AssembliesToDelete Include="@(ILRepackInputAssemblies)" Exclude="$(OutputPath)$(TargetName)$(TargetExt)" />
         <PdbToDelete Include="@(AssembliesToDelete -> '%(RelativeDir)%(Filename).pdb')" />
         <XmlToDelete Include="@(AssembliesToDelete -> '%(RelativeDir)%(Filename).xml')" />
-        <ConfigToDelete Include="@(AssembliesToDelete -> '%(RelativeDir)%(Filename).config')" />
+        <ConfigToDelete Include="@(AssembliesToDelete -> '%(RelativeDir)%(Filename)%(Extension).config')" />
 
         <ILRepackToDelete Include="@(AssembliesToDelete);@(PdbToDelete);@(XmlToDelete);@(ConfigToDelete)" />
     </ItemGroup>
