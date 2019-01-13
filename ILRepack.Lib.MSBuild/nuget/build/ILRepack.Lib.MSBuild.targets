@@ -14,6 +14,9 @@
   
   <Target Name="_ResolveILRepackTargets">
     <ItemGroup>
+        <ILRepackLibPath Condition=" '@(ILRepackLibPath)' == '' " Include="$(OutputPath)"/>
+        <ILRepackAllLibPath Include="@(ILRepackLibPath);@(ILRepackExtraLibPath)"/>
+
         <SrcAssemblies Condition=" '@(ILRepackInputAssemblies)' == '' " Include="$(OutputPath)*.dll" Exclude="$(OutputPath)$(TargetName)$(TargetExt);@(ILRepackExcludeAssemblies)"/>
         <ILRepackInputAssemblies Condition=" '@(ILRepackInputAssemblies)' == '' " Include="$(OutputPath)$(TargetName)$(TargetExt);@(SrcAssemblies)" />
         
@@ -35,6 +38,7 @@
       DebugInfo="true"
       AllowDuplicateResources="false"
       InputAssemblies="@(ILRepackInputAssemblies)"
+      LibraryPath="@(ILRepackAllLibPath)"
       InternalizeExclude="@(DoNotInternalizeAssemblies)"
       TargetKind="SameAsPrimaryAssembly"
       KeyFile="$(KeyFile)"
