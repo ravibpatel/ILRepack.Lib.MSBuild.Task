@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(ProjectDir)ILRepack.Config.props" Condition="Exists('$(ProjectDir)ILRepack.Config.props')" />
+  
+  <PropertyGroup>
+    <ILRepackMsBuildPath Condition=" '$(ILRepackMsBuildPath)' == '' ">$(MSBuildThisFileDirectory)\..\tools\ILRepack.Lib.MSBuild.dll</ILRepackMsBuildPath>
+
+    <ILRepackTargetsFile Condition=" '$(ILRepackTargetsFile)' == '' ">$(ProjectDir)ILRepack.targets</ILRepackTargetsFile>
+    <DoILRepack Condition=" '$(DoILRepack)' == '' and $(Configuration.Contains('Release')) ">true</DoILRepack>
+    <ILRepackInternalize Condition=" '$(ILRepackInternalize)' == '' and '$(TargetExt)' == '.exe'">true</ILRepackInternalize>
+  </PropertyGroup>
+  
+  <Import Project="$(ILRepackTargetsFile)" Condition="Exists('$(ILRepackTargetsFile)')" />
+  
+  <Target Name="_ResolveILRepackTargets">
+    <ItemGroup>
+        <SrcAssemblies Condition=" '@(ILRepackInputAssemblies)' == '' " Include="$(OutputPath)*.dll" Exclude="$(OutputPath)$(TargetName)$(TargetExt);@(ILRepackExcludeAssemblies)"/>
+        <ILRepackInputAssemblies Condition=" '@(ILRepackInputAssemblies)' == '' " Include="$(OutputPath)$(TargetName)$(TargetExt);@(SrcAssemblies)" />
+        
+        <AssembliesToDelete Include="@(ILRepackInputAssemblies)" Exclude="$(OutputPath)$(TargetName)$(TargetExt)" />
+        <PdbToDelete Include="@(AssembliesToDelete -> '%(RelativeDir)%(Filename).pdb')" />
+        <XmlToDelete Include="@(AssembliesToDelete -> '%(RelativeDir)%(Filename).xml')" />
+        <ConfigToDelete Include="@(AssembliesToDelete -> '%(RelativeDir)%(Filename).config')" />
+
+        <ILRepackToDelete Include="@(AssembliesToDelete);@(PdbToDelete);@(XmlToDelete);@(ConfigToDelete)" />
+    </ItemGroup>
+  </Target>
+  
+  <UsingTask AssemblyFile="$(ILRepackMsBuildPath)" TaskName="ILRepack" />
+  
+  <Target Name="ILRepack" AfterTargets="Build" Condition=" '$(DoILRepack)' == 'true' " DependsOnTargets="_ResolveILRepackTargets">
+    <ILRepack
+      Parallel="true"
+      Internalize="$(ILRepackInternalize)"
+      DebugInfo="true"
+      AllowDuplicateResources="false"
+      InputAssemblies="@(ILRepackInputAssemblies)"
+      InternalizeExclude="@(DoNotInternalizeAssemblies)"
+      TargetKind="SameAsPrimaryAssembly"
+      KeyFile="$(KeyFile)"
+      OutputFile="$(OutputPath)$(TargetName)$(TargetExt)"
+    />
+    
+    <Delete Files="@(ILRepackToDelete)"/>
+  </Target>
+</Project>
