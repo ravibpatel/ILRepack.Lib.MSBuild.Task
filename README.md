@@ -210,6 +210,14 @@ If you are using default targets file then you may notice that it clears Output 
     </tr>
 	<tr>
         <td>
+            RenameInternalized
+        </td>
+        <td>
+            Rename all internalized types (to be used when Internalize is enabled).
+        </td>
+    </tr>
+	<tr>
+        <td>
             InternalizeExclude
         </td>
         <td>
