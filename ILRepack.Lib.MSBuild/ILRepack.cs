@@ -166,6 +166,11 @@ namespace ILRepack.Lib.MSBuild
         public virtual bool Internalize { get; set; }
 
         /// <summary>
+        /// Rename all internalized types (to be used when Internalize is enabled).
+        /// </summary>
+        public virtual bool RenameInternalized { get; set; }
+
+        /// <summary>
         /// List of patterns that should not be interalized.
         /// </summary>
         public virtual ITaskItem[] InternalizeExclude { get; set; }
@@ -259,6 +264,7 @@ namespace ILRepack.Lib.MSBuild
                 TargetPlatformDirectory = TargetPlatformDirectory,
                 XmlDocumentation = XmlDocumentation,
                 Internalize = Internalize,
+                RenameInternalized = RenameInternalized,
                 DelaySign = DelaySign,
                 AllowDuplicateResources = AllowDuplicateResources,
                 AllowZeroPeKind = ZeroPeKind,
