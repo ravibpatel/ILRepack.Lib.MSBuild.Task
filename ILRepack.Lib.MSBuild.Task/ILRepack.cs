@@ -166,7 +166,12 @@ namespace ILRepack.Lib.MSBuild.Task
         public virtual bool Internalize { get; set; }
 
         /// <summary>
-        /// List of assemblies that should not be interalized.
+        /// Rename all internalized types (to be used when Internalize is enabled).
+        /// </summary>
+        public virtual bool RenameInternalized { get; set; }
+
+        /// <summary>
+        /// List of assemblies that should not be internalized.
         /// </summary>
         public virtual ITaskItem[] InternalizeExclude { get; set; }
 
@@ -254,6 +259,7 @@ namespace ILRepack.Lib.MSBuild.Task
                 TargetPlatformDirectory = TargetPlatformDirectory,
                 XmlDocumentation = XmlDocumentation,
                 Internalize = Internalize,
+                RenameInternalized = RenameInternalized,
                 DelaySign = DelaySign,
                 AllowDuplicateResources = AllowDuplicateResources,
                 AllowZeroPeKind = ZeroPeKind,
