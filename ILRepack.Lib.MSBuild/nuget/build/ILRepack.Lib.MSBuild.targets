@@ -17,7 +17,8 @@
         <ILRepackLibPath Condition=" '@(ILRepackLibPath)' == '' " Include="$(OutputPath)"/>
         <ILRepackAllLibPath Include="@(ILRepackLibPath);@(ILRepackExtraLibPath)"/>
 
-        <SrcAssemblies Condition=" '@(ILRepackInputAssemblies)' == '' " Include="$(OutputPath)*.dll" Exclude="$(OutputPath)$(TargetName)$(TargetExt);@(ILRepackExcludeAssemblies)"/>
+        <ILRepackExcludes Include="@(ILRepackExcludeAssemblies -> '$(OutputPath)%(Filename)%(Extension)')" />
+        <SrcAssemblies Condition=" '@(ILRepackInputAssemblies)' == '' " Include="$(OutputPath)*.dll" Exclude="$(OutputPath)$(TargetName)$(TargetExt);@(ILRepackExcludes)"/>
         <ILRepackInputAssemblies Condition=" '@(ILRepackInputAssemblies)' == '' " Include="$(OutputPath)$(TargetName)$(TargetExt);@(SrcAssemblies)" />
         
         <AssembliesToDelete Include="@(ILRepackInputAssemblies)" Exclude="$(OutputPath)$(TargetName)$(TargetExt)" />
