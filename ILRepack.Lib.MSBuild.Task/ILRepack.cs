@@ -2,7 +2,7 @@
  * Copyright (c) 2004, Evain Jb (jb@evain.net)
  * Modified 2007 Marcus Griep (neoeinstein+boo@gmail.com)
  * Modified 2013 Peter Sunde (peter.sunde@gmail.com)
- * Modified 2016-2018 Ravi Patel (www.rbsoft.org)
+ * Modified 2016-2019 Ravi Patel (www.rbsoft.org)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,11 +50,9 @@ namespace ILRepack.Lib.MSBuild.Task
         private string _outputFile;
         private string _keyFile;
         private string _keyContainer;
-        private ITaskItem[] _assemblies = new ITaskItem[0];
         private ILRepacking.ILRepack.Kind _targetKind;
-        private ILRepacking.ILRepack _ilMerger;
-        private RepackOptions _repackOptions;
         private string _excludeFileTmpPath;
+
         #endregion
 
         #region Fields
@@ -64,8 +62,8 @@ namespace ILRepack.Lib.MSBuild.Task
         /// </summary>
         public virtual string KeyFile
         {
-            get { return _keyFile; }
-            set { _keyFile = BuildPath(ConvertEmptyToNull(value)); }
+            get => _keyFile;
+            set => _keyFile = BuildPath(ConvertEmptyToNull(value));
         }
 
         /// <summary>
@@ -73,8 +71,8 @@ namespace ILRepack.Lib.MSBuild.Task
         /// </summary>
         public virtual string KeyContainer
         {
-            get { return _keyContainer; }
-            set { _keyContainer = BuildPath(ConvertEmptyToNull(value)); }
+            get => _keyContainer;
+            set => _keyContainer = BuildPath(ConvertEmptyToNull(value));
         }
 
         /// <summary>
@@ -82,8 +80,8 @@ namespace ILRepack.Lib.MSBuild.Task
         /// </summary>
         public virtual string LogFile
         {
-            get { return _logFile; }
-            set { _logFile = BuildPath(ConvertEmptyToNull(value)); }
+            get => _logFile;
+            set => _logFile = BuildPath(ConvertEmptyToNull(value));
         }
 
         /// <summary>
@@ -101,8 +99,8 @@ namespace ILRepack.Lib.MSBuild.Task
         /// </summary>
         public virtual string AttributeFile
         {
-            get { return _attributeFile; }
-            set { _attributeFile = BuildPath(ConvertEmptyToNull(value)); }
+            get => _attributeFile;
+            set => _attributeFile = BuildPath(ConvertEmptyToNull(value));
         }
 
         /// <summary>
@@ -120,15 +118,12 @@ namespace ILRepack.Lib.MSBuild.Task
         /// </summary>
         public virtual string TargetKind
         {
-            get
-            {
-                return _targetKind.ToString();
-            }
+            get => _targetKind.ToString();
             set
             {
                 if (Enum.IsDefined(typeof(ILRepacking.ILRepack.Kind), value))
                 {
-                    _targetKind = (ILRepacking.ILRepack.Kind)Enum.Parse(typeof(ILRepacking.ILRepack.Kind), value);
+                    _targetKind = (ILRepacking.ILRepack.Kind) Enum.Parse(typeof(ILRepacking.ILRepack.Kind), value);
                 }
                 else
                 {
@@ -181,22 +176,15 @@ namespace ILRepack.Lib.MSBuild.Task
         [Required]
         public virtual string OutputFile
         {
-            get { return _outputFile; }
-            set
-            {
-                _outputFile = ConvertEmptyToNull(value);
-            }
+            get => _outputFile;
+            set => _outputFile = ConvertEmptyToNull(value);
         }
 
         /// <summary>
         /// List of assemblies that will be merged.
         /// </summary>
         [Required]
-        public virtual ITaskItem[] InputAssemblies
-        {
-            get { return _assemblies; }
-            set { _assemblies = value; }
-        }
+        public virtual ITaskItem[] InputAssemblies { get; set; } = new ITaskItem[0];
 
         /// <summary>
         /// Set the keyfile, but don't sign the assembly.
@@ -236,18 +224,18 @@ namespace ILRepack.Lib.MSBuild.Task
         #endregion
 
         #region Public methods
+
         /// <summary>
         ///     Executes ILRepack with specified options.
         /// </summary>
         /// <returns>Returns true if its successful.</returns>
         public override bool Execute()
         {
-            _repackOptions = new RepackOptions
+            var repackOptions = new RepackOptions
             {
                 KeyFile = _keyFile,
                 KeyContainer = _keyContainer,
                 LogFile = _logFile,
-                Log = !string.IsNullOrEmpty(_logFile),
                 LogVerbose = Verbose,
                 UnionMerge = Union,
                 DebugInfo = DebugInfo,
@@ -268,96 +256,117 @@ namespace ILRepack.Lib.MSBuild.Task
                 OutputFile = _outputFile,
                 AllowWildCards = Wildcards
             };
-            _ilMerger = new ILRepacking.ILRepack(_repackOptions);
 
-            // Attempt to create output directory if it does not exist.
-            var outputPath = Path.GetDirectoryName(OutputFile);
-            if (outputPath != null && !Directory.Exists(outputPath))
+            Logger logger = new Logger
             {
-                try
-                {
-                    Directory.CreateDirectory(outputPath);
-                }
-                catch (Exception ex)
-                {
-                    Log.LogErrorFromException(ex);
-                    return false;
-                }
-            }
+                ShouldLogVerbose = repackOptions.LogVerbose
+            };
 
-            // Assemblies to be merged.
-            var assemblies = new string[_assemblies.Length];
-            for (int i = 0; i < _assemblies.Length; i++)
-            {
-                assemblies[i] = _assemblies[i].ItemSpec;
-                if (string.IsNullOrEmpty(assemblies[i]))
-                {
-                    throw new Exception($"Invalid assembly path on item index {i}");
-                }
-                if (!File.Exists(assemblies[i]) && !File.Exists(BuildPath(assemblies[i])))
-                {
-                    throw new Exception($"Unable to resolve assembly '{assemblies[i]}'");
-                }
-                Log.LogMessage(MessageImportance.High, "Added assembly '{0}'", assemblies[i]);
-            }
-
-            // List of regex to compare against FullName of types NOT to internalize
-            if (InternalizeExclude != null)
-            {
-                var internalizeExclude = new string[InternalizeExclude.Length];
-                if (Internalize)
-                {
-                    for (int i = 0; i < InternalizeExclude.Length; i++)
-                    {
-                        internalizeExclude[i] = InternalizeExclude[i].ItemSpec;
-                        if (string.IsNullOrEmpty(internalizeExclude[i]))
-                        {
-                            throw new Exception($"Invalid internalize exclude pattern at item index {i}. Pattern cannot be blank.");
-                        }
-                        Log.LogMessage(MessageImportance.High,
-                            "Excluding namespaces/types matching pattern '{0}' from being internalized", internalizeExclude[i]);
-                    }
-
-                    // Create a temporary file with a list of assemblies that should not be internalized.
-                    _excludeFileTmpPath = Path.GetTempFileName();
-                    File.WriteAllLines(_excludeFileTmpPath, internalizeExclude);
-                    _repackOptions.ExcludeFile = _excludeFileTmpPath;
-                }
-            }
-
-            _repackOptions.InputAssemblies = assemblies;
-
-            // Path that will be used when searching for assemblies to merge.
-            var searchPath = new List<string> { "." };
-            searchPath.AddRange(LibraryPath.Select(iti => BuildPath(iti.ItemSpec)));
-            _repackOptions.SearchDirectories = searchPath.ToArray();
-
-            // Attempt to merge assemblies.
             try
             {
+                // Attempt to create output directory if it does not exist.
+                var outputPath = Path.GetDirectoryName(OutputFile);
+                if (outputPath != null && !Directory.Exists(outputPath))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(outputPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.LogErrorFromException(ex);
+                        return false;
+                    }
+                }
+
+                // Assemblies to be merged.
+                var assemblies = new string[InputAssemblies.Length];
+                for (int i = 0; i < InputAssemblies.Length; i++)
+                {
+                    assemblies[i] = InputAssemblies[i].ItemSpec;
+                    if (string.IsNullOrEmpty(assemblies[i]))
+                    {
+                        throw new Exception($"Invalid assembly path on item index {i}");
+                    }
+
+                    if (!File.Exists(assemblies[i]) && !File.Exists(BuildPath(assemblies[i])))
+                    {
+                        throw new Exception($"Unable to resolve assembly '{assemblies[i]}'");
+                    }
+
+                    Log.LogMessage(MessageImportance.High, "Added assembly '{0}'", assemblies[i]);
+                }
+
+                // List of regex to compare against FullName of types NOT to internalize
+                if (InternalizeExclude != null)
+                {
+                    var internalizeExclude = new string[InternalizeExclude.Length];
+                    if (Internalize)
+                    {
+                        for (int i = 0; i < InternalizeExclude.Length; i++)
+                        {
+                            internalizeExclude[i] = InternalizeExclude[i].ItemSpec;
+                            if (string.IsNullOrEmpty(internalizeExclude[i]))
+                            {
+                                throw new Exception(
+                                    $"Invalid internalize exclude pattern at item index {i}. Pattern cannot be blank.");
+                            }
+
+                            Log.LogMessage(MessageImportance.High,
+                                "Excluding namespaces/types matching pattern '{0}' from being internalized",
+                                internalizeExclude[i]);
+                        }
+
+                        // Create a temporary file with a list of assemblies that should not be internalized.
+                        _excludeFileTmpPath = Path.GetTempFileName();
+                        File.WriteAllLines(_excludeFileTmpPath, internalizeExclude);
+                        repackOptions.ExcludeFile = _excludeFileTmpPath;
+                    }
+                }
+
+                repackOptions.InputAssemblies = assemblies;
+
+                // Path that will be used when searching for assemblies to merge.
+                var searchPath = new List<string> {"."};
+                searchPath.AddRange(LibraryPath.Select(iti => BuildPath(iti.ItemSpec)));
+                repackOptions.SearchDirectories = searchPath.ToArray();
+
+                // Attempt to merge assemblies.
                 Log.LogMessage(MessageImportance.High, "Merging {0} assemb{1} to '{2}'",
-                    _assemblies.Length, _assemblies.Length != 1 ? "ies" : "y", _outputFile);
+                    InputAssemblies.Length, InputAssemblies.Length != 1 ? "ies" : "y", _outputFile);
 
                 // Measure performance
                 Stopwatch stopWatch = new Stopwatch();
                 stopWatch.Start();
 
-                _ilMerger.Repack();
+                if (logger.Open(repackOptions.LogFile))
+                {
+                    repackOptions.Log = true;
+                }
+
+                ILRepacking.ILRepack ilRepack = new ILRepacking.ILRepack(repackOptions, logger);
+                ilRepack.Repack();
+
                 stopWatch.Stop();
 
                 Log.LogMessage(MessageImportance.High, "Merge succeeded in {0} s", stopWatch.Elapsed.TotalSeconds);
+                logger.Close();
+
+                return true;
             }
             catch (Exception e)
             {
+                logger.Log(e);
+                logger.Close();
                 Log.LogErrorFromException(e);
                 return false;
             }
-
-            return true;
         }
+
         #endregion
 
         #region Private methods
+
         /// <summary>
         /// Converts empty string to null.
         /// </summary>
@@ -378,9 +387,11 @@ namespace ILRepack.Lib.MSBuild.Task
             var workDir = Directory.GetCurrentDirectory();
             return string.IsNullOrEmpty(path) ? null : Path.Combine(workDir, path);
         }
+
         #endregion
 
         #region IDisposable
+
         public void Dispose()
         {
             // Remove temporary exclude file
@@ -389,6 +400,7 @@ namespace ILRepack.Lib.MSBuild.Task
                 File.Delete(_excludeFileTmpPath);
             }
         }
+
         #endregion
     }
 }
