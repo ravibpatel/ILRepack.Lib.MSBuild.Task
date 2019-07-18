@@ -1,6 +1,6 @@
 version: 2.0.17.{build}
 environment:
-  my_version: 2.0.17.0
+  my_version: 2.0.17
   my_secret:
     secure: 5qtuEW0UQ/IEO8DRi4/y3EgEBoJDM/HyYpPgzasIlm0=
 skip_branch_with_pr: true
