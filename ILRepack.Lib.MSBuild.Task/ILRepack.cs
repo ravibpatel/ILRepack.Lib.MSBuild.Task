@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Copyright (c) 2004, Evain Jb (jb@evain.net)
  * Modified 2007 Marcus Griep (neoeinstein+boo@gmail.com)
  * Modified 2013 Peter Sunde (peter.sunde@gmail.com)
@@ -221,15 +221,20 @@ namespace ILRepack.Lib.MSBuild.Task
         /// </summary>
         public virtual bool Wildcards { get; set; }
 
-        #endregion
+		/// <summary>
+		/// Allows the specified type for being duplicated in input assemblies.
+		/// </summary>
+		public virtual string AllowDuplicateNamespaces { get; set; }
 
-        #region Public methods
+		#endregion
 
-        /// <summary>
-        ///     Executes ILRepack with specified options.
-        /// </summary>
-        /// <returns>Returns true if its successful.</returns>
-        public override bool Execute()
+		#region Public methods
+
+		/// <summary>
+		///     Executes ILRepack with specified options.
+		/// </summary>
+		/// <returns>Returns true if its successful.</returns>
+		public override bool Execute()
         {
             var repackOptions = new RepackOptions
             {
@@ -256,6 +261,8 @@ namespace ILRepack.Lib.MSBuild.Task
                 OutputFile = _outputFile,
                 AllowWildCards = Wildcards
             };
+
+			repackOptions.AllowedDuplicateNameSpaces.AddRange(ParseDuplicateNamspacesOption(AllowDuplicateNamespaces));
 
             Logger logger = new Logger
             {
@@ -366,6 +373,34 @@ namespace ILRepack.Lib.MSBuild.Task
         #endregion
 
         #region Private methods
+
+		/// <summary>
+		/// Parses the command line options for AllowDuplicateNamespaces.
+		/// </summary>
+		/// <param name="value">The given options.</param>
+		/// <returns>A list of all allowed namespace duplicates.</returns>
+		private static List<string> ParseDuplicateNamspacesOption(string value)
+		{
+			var list = new List<string>();
+
+			if (string.IsNullOrEmpty(value)) return list;
+
+			var split = value.Split(',');
+
+			if (split == null || split.Length == 0)
+			{
+				list.Add(value);
+			}
+			else
+			{
+				foreach (var item in split)
+				{
+					list.Add(item);
+				}
+			}
+
+			return list;
+		}
 
         /// <summary>
         /// Converts empty string to null.
