@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Copyright (c) 2004, Evain Jb (jb@evain.net)
  * Modified 2007 Marcus Griep (neoeinstein+boo@gmail.com)
  * Modified 2013 Peter Sunde (peter.sunde@gmail.com)
@@ -197,6 +197,11 @@ namespace ILRepack.Lib.MSBuild.Task
         public virtual bool AllowDuplicateResources { get; set; }
 
         /// <summary>
+        /// Allows the specified namespaces for being duplicated in to input assemblies.
+        /// </summary>
+        public virtual string AllowedDuplicateNamespaces { get; set; }
+
+        /// <summary>
         /// Allows assemblies with Zero PeKind (but obviously only IL will get merged).
         /// </summary>
         public virtual bool ZeroPeKind { get; set; }
@@ -256,6 +261,8 @@ namespace ILRepack.Lib.MSBuild.Task
                 OutputFile = _outputFile,
                 AllowWildCards = Wildcards
             };
+
+            repackOptions.AllowedDuplicateNameSpaces.AddRange(ParseDuplicateNamespacesOption(AllowedDuplicateNamespaces));
 
             Logger logger = new Logger
             {
@@ -366,6 +373,18 @@ namespace ILRepack.Lib.MSBuild.Task
         #endregion
 
         #region Private methods
+
+        /// <summary>
+        /// Parses the command line options for AllowedDuplicateNameSpaces.
+        /// </summary>
+        /// <param name="value">The given options.</param>
+        /// <returns>A collection of all allowed namespace duplicates.</returns>
+        private static IEnumerable<string> ParseDuplicateNamespacesOption(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return new string[0];
+
+            return value.Split(',');
+        }
 
         /// <summary>
         /// Converts empty string to null.
