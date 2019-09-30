@@ -256,6 +256,14 @@ If you are using default targets file then you may notice that it clears Output 
             Allows to duplicate resources in output assembly.
         </td>
     </tr>
+    <tr>
+        <td>
+            AllowedDuplicateNamespaces
+        </td>
+        <td>
+            Allows the specified namespaces for being duplicated in to input assemblies. Multiple namespaces are delimited by ",".
+        </td>
+    </tr>
 	<tr>
         <td>
             ZeroPeKind
@@ -286,14 +294,6 @@ If you are using default targets file then you may notice that it clears Output 
         </td>
         <td>
             Allows (and resolves) file wildcards (e.g. `*`.dll) in input assemblies.
-        </td>
-    </tr>
-    <tr>
-        <td>
-            AllowDuplicateNamespaces
-        </td>
-        <td>
-            Allows the specified namespaces for being duplicated in input assemblies. Multiple namespaces are delimited by ",".
         </td>
     </tr>
 </table>

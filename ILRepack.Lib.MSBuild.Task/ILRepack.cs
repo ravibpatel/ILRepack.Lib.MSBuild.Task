@@ -197,6 +197,11 @@ namespace ILRepack.Lib.MSBuild.Task
         public virtual bool AllowDuplicateResources { get; set; }
 
         /// <summary>
+        /// Allows the specified namespaces for being duplicated in to input assemblies.
+        /// </summary>
+        public virtual string AllowedDuplicateNamespaces { get; set; }
+
+        /// <summary>
         /// Allows assemblies with Zero PeKind (but obviously only IL will get merged).
         /// </summary>
         public virtual bool ZeroPeKind { get; set; }
@@ -221,20 +226,15 @@ namespace ILRepack.Lib.MSBuild.Task
         /// </summary>
         public virtual bool Wildcards { get; set; }
 
-		/// <summary>
-		/// Allows the specified type for being duplicated in input assemblies.
-		/// </summary>
-		public virtual string AllowDuplicateNamespaces { get; set; }
+        #endregion
 
-		#endregion
+        #region Public methods
 
-		#region Public methods
-
-		/// <summary>
-		///     Executes ILRepack with specified options.
-		/// </summary>
-		/// <returns>Returns true if its successful.</returns>
-		public override bool Execute()
+        /// <summary>
+        ///     Executes ILRepack with specified options.
+        /// </summary>
+        /// <returns>Returns true if its successful.</returns>
+        public override bool Execute()
         {
             var repackOptions = new RepackOptions
             {
@@ -262,7 +262,7 @@ namespace ILRepack.Lib.MSBuild.Task
                 AllowWildCards = Wildcards
             };
 
-			repackOptions.AllowedDuplicateNameSpaces.AddRange(ParseDuplicateNamspacesOption(AllowDuplicateNamespaces));
+            repackOptions.AllowedDuplicateNameSpaces.AddRange(ParseDuplicateNamespacesOption(AllowedDuplicateNamespaces));
 
             Logger logger = new Logger
             {
@@ -374,33 +374,17 @@ namespace ILRepack.Lib.MSBuild.Task
 
         #region Private methods
 
-		/// <summary>
-		/// Parses the command line options for AllowDuplicateNamespaces.
-		/// </summary>
-		/// <param name="value">The given options.</param>
-		/// <returns>A list of all allowed namespace duplicates.</returns>
-		private static List<string> ParseDuplicateNamspacesOption(string value)
-		{
-			var list = new List<string>();
+        /// <summary>
+        /// Parses the command line options for AllowedDuplicateNameSpaces.
+        /// </summary>
+        /// <param name="value">The given options.</param>
+        /// <returns>A collection of all allowed namespace duplicates.</returns>
+        private static IEnumerable<string> ParseDuplicateNamespacesOption(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return new string[0];
 
-			if (string.IsNullOrEmpty(value)) return list;
-
-			var split = value.Split(',');
-
-			if (split == null || split.Length == 0)
-			{
-				list.Add(value);
-			}
-			else
-			{
-				foreach (var item in split)
-				{
-					list.Add(item);
-				}
-			}
-
-			return list;
-		}
+            return value.Split(',');
+        }
 
         /// <summary>
         /// Converts empty string to null.
