@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Alex Vostres")]
 [assembly: AssemblyProduct("ILRepack.Lib.MSBuild")]
-[assembly: AssemblyCopyright("Copyright © 2018 Alex Vostres")]
+[assembly: AssemblyCopyright("Copyright © 2018-2019 Alex Vostres")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.1.6.0")]
-[assembly: AssemblyFileVersion("2.1.6.0")]
+[assembly: AssemblyVersion("2.1.8.0")]
+[assembly: AssemblyFileVersion("2.1.8.0")]
