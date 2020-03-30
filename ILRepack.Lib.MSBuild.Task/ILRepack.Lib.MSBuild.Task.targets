@@ -11,26 +11,62 @@
   <UsingTask AssemblyFile="$(MSBuildThisFileDirectory)ILRepack.Lib.MSBuild.Task.dll" TaskName="ILRepack" />
   <Import Project="$(ILRepackTargetsFile)" Condition="Exists('$(ILRepackTargetsFile)')" />
   <Target Name="ILRepack" AfterTargets="Build" Condition="$(Configuration.Contains('Release')) and !Exists('$(ILRepackTargetsFile)')">
+    <Message Text="Building ILRepacker's targets." Importance="High" />
+    <PropertyGroup>
+      <ILRepackProgramAssembly>$(OutputPath)$(TargetName)$(TargetExt)</ILRepackProgramAssembly>
+    </PropertyGroup>
     <ItemGroup>
-      <InputAssemblies Include="$(OutputPath)$(TargetName)$(TargetExt)"/>
-      <InputAssemblies Include="$(OutputPath)*.dll" Exclude="$(OutputPath)$(TargetName)$(TargetExt)"/>
+      <ILRepackPossibleAssemblyReferences Include="$(OutputPath)*.dll"/>
+      <ILRepackPossibleAssemblyReferences Include="$(OutputPath)*.exe"/>
+      <ILRepackImpossibleAssemblyReferences
+        Include="$(OutputPath)*.*"
+        Exclude="@(ILRepackPossibleAssemblyReferences)"/>
+      <ILRepackIncludedAssemblyReferences
+        Include="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')"
+        Exclude="@(ILRepackImpossibleAssemblyReferences)"/>
+      <ILRepackExcludedAssemblyReferences
+        Include="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')"
+        Exclude="@(ILRepackIncludedAssemblyReferences)"/>
     </ItemGroup>
+    <ItemGroup>
+      <ILRepackExcludedEmbeddedAssemblies Include="$(ILRepackProgramAssembly)"/>
+      <!--<ILRepackExcludedEmbeddedAssemblies Include="$(OutputPath)*SomeExcludedEmbeddedAssembly*"/>-->
+    </ItemGroup>
+    <ItemGroup>
+      <ILRepackIncludedEmbeddedAssemblies
+        Include="@(ILRepackIncludedAssemblyReferences)"
+        Exclude="@(ILRepackExcludedEmbeddedAssemblies)" />
+    </ItemGroup>
+    <ItemGroup>
+      <ILRepackInputAssemblies Include="$(ILRepackProgramAssembly)"/>
+      <ILRepackInputAssemblies Include="@(ILRepackIncludedEmbeddedAssemblies)"/>
+    </ItemGroup>
+    <PropertyGroup>
+      <ILRepackOutputFolder>$(OutputPath)</ILRepackOutputFolder>
+      <ILRepackOutputFile>$(ILRepackOutputFolder)$(TargetName)$(TargetExt)</ILRepackOutputFile>
+    </PropertyGroup>
 
     <ILRepack
       Parallel="true"
       DebugInfo="true"
       AllowDuplicateResources="false"
-      InputAssemblies="@(InputAssemblies)"
+      InputAssemblies="@(ILRepackInputAssemblies)"
       TargetKind="SameAsPrimaryAssembly"
       KeyFile="$(KeyFile)"
-      OutputFile="$(OutputPath)$(TargetName)$(TargetExt)"
-    />
+      OutputFile="$(ILRepackOutputFile)">
+      <!--Internalize="true"
+      RenameInternalized="true" />
+      internalize makes all the files that are getting embedded into the program executable as private sources, useful if we want to focus on the main source
+      , but also exposes it and ignoring public/private fields/methods/types in the other files-->
+    </ILRepack>
+
+    <Message Text="Successfully built ILRepacker's targets." Importance="High" />
   </Target>
   <Target
     AfterTargets="ILRepack"
     Name="CleanReferenceCopyLocalPaths"
     Condition="$(Configuration.Contains('Release')) and !Exists('$(ILRepackTargetsFile)') and '$(ClearOutputDirectory)' != 'False'">
-    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
+    <Delete Files="@(ILRepackIncludedEmbeddedAssemblies)" />
     <ItemGroup>
       <Directories Include="$([System.IO.Directory]::GetDirectories('$(OutDir)%(DestinationSubDirectory)', '*', System.IO.SearchOption.AllDirectories))" />
       <Directories>
