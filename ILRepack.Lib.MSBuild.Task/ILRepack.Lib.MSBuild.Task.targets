@@ -16,21 +16,21 @@
       <ILRepackProgramAssembly>$(OutputPath)$(TargetName)$(TargetExt)</ILRepackProgramAssembly>
     </PropertyGroup>
     <ItemGroup>
-      <ILRepackPossibleAssemblyReferences Include="$(OutputPath)*.dll"/>
-      <ILRepackPossibleAssemblyReferences Include="$(OutputPath)*.exe"/>
+      <ILRepackPossibleAssemblyReferences Include="$(OutputPath)*.dll" />
+      <ILRepackPossibleAssemblyReferences Include="$(OutputPath)*.exe" />
       <ILRepackImpossibleAssemblyReferences
         Include="$(OutputPath)*.*"
-        Exclude="@(ILRepackPossibleAssemblyReferences)"/>
+        Exclude="@(ILRepackPossibleAssemblyReferences)" />
       <ILRepackIncludedAssemblyReferences
         Include="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')"
-        Exclude="@(ILRepackImpossibleAssemblyReferences)"/>
+        Exclude="@(ILRepackImpossibleAssemblyReferences)" />
       <ILRepackExcludedAssemblyReferences
         Include="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')"
-        Exclude="@(ILRepackIncludedAssemblyReferences)"/>
+        Exclude="@(ILRepackIncludedAssemblyReferences)" />
     </ItemGroup>
     <ItemGroup>
-      <ILRepackExcludedEmbeddedAssemblies Include="$(ILRepackProgramAssembly)"/>
-      <!--<ILRepackExcludedEmbeddedAssemblies Include="$(OutputPath)*SomeExcludedEmbeddedAssembly*"/>-->
+      <ILRepackExcludedEmbeddedAssemblies Include="$(ILRepackProgramAssembly)" />
+      <!--<ILRepackExcludedEmbeddedAssemblies Include="$(OutputPath)*SomeExcludedEmbeddedAssembly*" />-->
     </ItemGroup>
     <ItemGroup>
       <ILRepackIncludedEmbeddedAssemblies
@@ -38,8 +38,8 @@
         Exclude="@(ILRepackExcludedEmbeddedAssemblies)" />
     </ItemGroup>
     <ItemGroup>
-      <ILRepackInputAssemblies Include="$(ILRepackProgramAssembly)"/>
-      <ILRepackInputAssemblies Include="@(ILRepackIncludedEmbeddedAssemblies)"/>
+      <ILRepackInputAssemblies Include="$(ILRepackProgramAssembly)" />
+      <ILRepackInputAssemblies Include="@(ILRepackIncludedEmbeddedAssemblies)" />
     </ItemGroup>
     <PropertyGroup>
       <ILRepackOutputFolder>$(OutputPath)</ILRepackOutputFolder>
