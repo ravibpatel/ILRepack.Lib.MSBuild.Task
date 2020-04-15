@@ -72,7 +72,7 @@ namespace ILRepack.Lib.MSBuild.Task
         public virtual string KeyContainer
         {
             get => _keyContainer;
-            set => _keyContainer = BuildPath(ConvertEmptyToNull(value));
+            set => _keyContainer = value;
         }
 
         /// <summary>
@@ -166,7 +166,8 @@ namespace ILRepack.Lib.MSBuild.Task
         public virtual bool RenameInternalized { get; set; }
 
         /// <summary>
-        /// List of assemblies that should not be internalized.
+        /// If Internalize is set to true, any which match these regular expressions will not be internalized. 
+        /// If internalize is false, then this property is ignored.
         /// </summary>
         public virtual ITaskItem[] InternalizeExclude { get; set; }
 
