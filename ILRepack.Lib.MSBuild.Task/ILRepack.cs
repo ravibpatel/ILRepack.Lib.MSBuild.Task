@@ -166,8 +166,8 @@ namespace ILRepack.Lib.MSBuild.Task
         public virtual bool RenameInternalized { get; set; }
 
         /// <summary>
-        /// List of  contains namespaces to exclude. One item should contain a regex 
-        /// to compare against FullName of types NOT to internalize that should not be internalized.
+        /// If Internalize is set to true, any which match these regular expressions will not be internalized. 
+        /// If internalize is false, then this property is ignored.
         /// </summary>
         public virtual ITaskItem[] InternalizeExclude { get; set; }
 
