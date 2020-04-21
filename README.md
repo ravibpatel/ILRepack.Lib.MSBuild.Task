@@ -221,7 +221,7 @@ If you are using default targets file then you may notice that it clears Output 
             InternalizeExclude
         </td>
         <td>
-            Assemblies that will not be internalized.
+            If Internalize is set to true, any which match these regular expressions will not be internalized. If internalize is false, then this property is ignored.
         </td>
     </tr>
 	<tr>
