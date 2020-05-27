@@ -3,7 +3,8 @@
   <Import Project="$(ProjectDir)ILRepack.Config.props" Condition="Exists('$(ProjectDir)ILRepack.Config.props')" />
   
   <PropertyGroup>
-    <ILRepackMsBuildPath Condition=" '$(ILRepackMsBuildPath)' == '' ">$(MSBuildThisFileDirectory)\..\tools\ILRepack.Lib.MSBuild.dll</ILRepackMsBuildPath>
+    <ILRepackMsBuildPath Condition=" '$(ILRepackMsBuildPath)' == '' And '$(MSBuildRuntimeType)' == 'Core' ">$(MSBuildThisFileDirectory)\..\tools\netstandard2.0\ILRepack.Lib.MSBuild.dll</ILRepackMsBuildPath>
+    <ILRepackMsBuildPath Condition=" '$(ILRepackMsBuildPath)' == '' And '$(MSBuildRuntimeType)' != 'Core' ">$(MSBuildThisFileDirectory)\..\tools\net461\ILRepack.Lib.MSBuild.dll</ILRepackMsBuildPath>
 
     <ILRepackTargetsFile Condition=" '$(ILRepackTargetsFile)' == '' ">$(ProjectDir)ILRepack.targets</ILRepackTargetsFile>
     <DoILRepack Condition=" '$(DoILRepack)' == '' and $(Configuration.Contains('Release')) ">true</DoILRepack>
