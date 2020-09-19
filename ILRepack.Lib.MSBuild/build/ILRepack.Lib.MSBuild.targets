@@ -19,8 +19,9 @@
         <ILRepackAllLibPath Include="@(ILRepackLibPath);@(ILRepackExtraLibPath)"/>
 
         <ILRepackExcludes Include="@(ILRepackExcludeAssemblies -> '$(OutputPath)%(Filename)%(Extension)')" />
-        <SrcAssemblies Condition=" '@(ILRepackInputAssemblies)' == '' " Include="$(OutputPath)*.dll" Exclude="$(OutputPath)$(TargetName)$(TargetExt);@(ILRepackExcludes)"/>
-        <ILRepackInputAssemblies Condition=" '@(ILRepackInputAssemblies)' == '' " Include="$(OutputPath)$(TargetName)$(TargetExt);@(SrcAssemblies)" />
+        <ILRepackSrcAssemblies Condition=" '@(ILRepackMergeAssemblies)' != '' " Include="@(ILRepackMergeAssemblies -> '$(OutputPath)%(Filename)%(Extension)')"/>
+        <ILRepackSrcAssemblies Condition=" '@(ILRepackMergeAssemblies)' == '' " Include="$(OutputPath)*.dll" Exclude="$(OutputPath)$(TargetName)$(TargetExt);@(ILRepackExcludes)"/>
+        <ILRepackInputAssemblies Condition=" '@(ILRepackInputAssemblies)' == '' " Include="$(OutputPath)$(TargetName)$(TargetExt);@(ILRepackSrcAssemblies)" />
         
         <AssembliesToDelete Include="@(ILRepackInputAssemblies)" Exclude="$(OutputPath)$(TargetName)$(TargetExt)" />
         <PdbToDelete Include="@(AssembliesToDelete -> '%(RelativeDir)%(Filename).pdb')" />

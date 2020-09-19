@@ -6,7 +6,7 @@
     <Company>Alex Vostres</Company>
     <Product>ILRepack.Lib.MSBuild</Product>
     <Copyright>Copyright © 2018-2020 Alex Vostres</Copyright>
-    <Version>2.1.16.0</Version>
+    <Version>2.1.16.1</Version>
     <BuildOutputTargetFolder>tools</BuildOutputTargetFolder>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <Description>MSBuild task for ILRepack which is an open-source alternative to ILMerge. This library uses Cecil 0.10 to resolve numerous issues</Description>
