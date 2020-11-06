@@ -227,6 +227,11 @@ namespace ILRepack.Lib.MSBuild.Task
         /// </summary>
         public virtual bool Wildcards { get; set; }
 
+        /// <summary>
+        /// Name of an attribute. Members in InputAssemblies marked with this attribute will be
+        /// dropped during merging.
+        /// </summary>
+        public string RepackDropAttribute { get; set; }
         #endregion
 
         #region Public methods
@@ -260,7 +265,8 @@ namespace ILRepack.Lib.MSBuild.Task
                 Parallel = Parallel,
                 PauseBeforeExit = PauseBeforeExit,
                 OutputFile = _outputFile,
-                AllowWildCards = Wildcards
+                AllowWildCards = Wildcards,
+                RepackDropAttribute = RepackDropAttribute
             };
 
             repackOptions.AllowedDuplicateNameSpaces.AddRange(ParseDuplicateNamespacesOption(AllowedDuplicateNamespaces));

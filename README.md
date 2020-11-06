@@ -296,4 +296,13 @@ If you are using default targets file then you may notice that it clears Output 
             Allows (and resolves) file wildcards (e.g. `*`.dll) in input assemblies.
         </td>
     </tr>
+    <tr>
+        <td>
+            RepackDropAttribute
+        </td>
+        <td>
+            Name of an attribute (optional). Members in input assemblies marked with this attribute
+            will be dropped during merging.
+        </td>
+    </tr>
 </table>
