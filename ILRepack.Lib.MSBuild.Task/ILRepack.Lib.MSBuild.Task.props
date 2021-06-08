@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ILRepackCustomPropsImport Condition=" '$(ILRepackCustomPropsImport)' == '' ">$(MSBuildProjectDirectory)\ILRepack.Config.props</ILRepackCustomPropsImport>
+    <ILRepackCustomTargetsImport Condition=" '$(ILRepackCustomTargetsImport)' == '' ">$(MSBuildProjectDirectory)\ILRepack.Config.props</ILRepackCustomTargetsImport>
+  </PropertyGroup>
+  <Import Project="$(ILRepackCustomPropsImport)" Condition="Exists('$(ILRepackCustomPropsImport)')" />
+  <PropertyGroup>
+    <ILRepackDependsOn Condition=" '$(ILRepackDependsOn)' == '' ">ILRepackGetInputAssemblies</ILRepackDependsOn>
+    <ILRepackAfterTargets Condition=" '$(ILRepackAfterTargets)' == '' And '$(Configuration)' == 'Release' ">Build</ILRepackAfterTargets>
+    <ILRepackBeforeTargets Condition=" '$(ILRepackBeforeTargets)' == '' "></ILRepackBeforeTargets>
+    <CleanReferenceCopyLocalPathsAfterTargets Condition=" '$(CleanReferenceCopyLocalPathsAfterTargets)' == '' And '$(Configuration)' == 'Release' And '$(ClearOutputDirectory)' != 'False' ">ILRepack</CleanReferenceCopyLocalPathsAfterTargets>
+  </PropertyGroup>
+</Project>
