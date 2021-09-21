@@ -166,9 +166,14 @@ namespace ILRepack.Lib.MSBuild
         public virtual bool Internalize { get; set; }
 
         /// <summary>
-        /// List of assemblies that should not be interalized.
+        /// List of patterns that should not be interalized.
         /// </summary>
         public virtual ITaskItem[] InternalizeExclude { get; set; }
+
+        /// <summary>
+        /// List of assemblies that should not be interalized.
+        /// </summary>
+        public virtual ITaskItem[] InternalizeExcludeAssemblies { get; set; }
 
         /// <summary>
         /// Output name for merged assembly.
@@ -297,30 +302,36 @@ namespace ILRepack.Lib.MSBuild
             }
 
             // List of assemblies that should not be internalized.
-            if (InternalizeExclude != null)
+            if (Internalize && InternalizeExclude != null)
             {
-                var internalizeExclude = new string[InternalizeExclude.Length];
-                if (Internalize)
+                for (int i = 0; i < InternalizeExclude.Length; i++)
                 {
-                    for (int i = 0; i < InternalizeExclude.Length; i++)
+                    var exclude = InternalizeExclude[i].ItemSpec;
+                    if (string.IsNullOrEmpty(exclude))
                     {
-                        internalizeExclude[i] = InternalizeExclude[i].ItemSpec;
-                        if (string.IsNullOrEmpty(internalizeExclude[i]))
-                        {
-                            throw new Exception($"Invalid assembly internalize exclude path on item index {i}");
-                        }
-                        if (!File.Exists(assemblies[i]) && !File.Exists(BuildPath(assemblies[i])))
-                        {
-                            throw new Exception($"Unable to resolve assembly '{assemblies[i]}'");
-                        }
-                        Log.LogMessage(MessageImportance.High,
-                            "Excluding assembly '{0}' from being internalized", internalizeExclude[i]);
+                        continue;
                     }
+                    Log.LogMessage(MessageImportance.High,
+                        "Excluding pattern '{0}' from being internalized", exclude);
 
-                    // Create a temporary file with a list of assemblies that should not be internalized.
-                    _excludeFileTmpPath = Path.GetTempFileName();
-                    File.WriteAllLines(_excludeFileTmpPath, internalizeExclude);
-                    _repackOptions.ExcludeFile = _excludeFileTmpPath;
+                    _repackOptions.ExcludeInternalizeMatches.Add(new System.Text.RegularExpressions.Regex(exclude));
+                }
+            }
+
+            // List of assemblies that should not be internalized.
+            if (Internalize && InternalizeExcludeAssemblies != null)
+            {
+                for (int i = 0; i < InternalizeExcludeAssemblies.Length; i++)
+                {
+                    var exclude = InternalizeExcludeAssemblies[i].ItemSpec;
+                    if (string.IsNullOrEmpty(exclude))
+                    {
+                        continue;
+                    }
+                    Log.LogMessage(MessageImportance.High,
+                        "Excluding assembly '{0}' from being internalized", exclude);
+
+                    _repackOptions.ExcludeInternalizeAssemblies.Add(exclude);
                 }
             }
 

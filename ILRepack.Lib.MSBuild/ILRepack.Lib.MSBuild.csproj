@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProjectGuid>{DB0F6F84-0028-4A9E-9EF6-60309AB51BAC}</ProjectGuid>
-    <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net461</TargetFrameworks>
     <AssemblyTitle>ILRepack.Lib.MSBuild</AssemblyTitle>
     <Company>Alex Vostres</Company>
     <Product>ILRepack.Lib.MSBuild</Product>
-    <Copyright>Copyright © 2018-2020 Alex Vostres</Copyright>
-    <Version>2.1.16.1</Version>
+    <Copyright>Copyright © 2018-2021 Alex Vostres</Copyright>
+    <Version>2.1.18</Version>
     <BuildOutputTargetFolder>tools</BuildOutputTargetFolder>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <Description>MSBuild task for ILRepack which is an open-source alternative to ILMerge. This library uses Cecil 0.10 to resolve numerous issues</Description>
@@ -25,7 +25,7 @@
     <Content Include="build\*.targets" PackagePath="build\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="avostres.ILRepack.Lib" Version="2.1.12" PrivateAssets="All" />
+    <PackageReference Include="avostres.ILRepack.Lib" Version="2.1.14" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.5.0" PrivateAssets="All" />
   </ItemGroup>
   

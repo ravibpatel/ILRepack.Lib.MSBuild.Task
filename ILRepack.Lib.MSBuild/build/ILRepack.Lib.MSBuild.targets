@@ -3,7 +3,7 @@
   <Import Project="$(ProjectDir)ILRepack.Config.props" Condition="Exists('$(ProjectDir)ILRepack.Config.props')" />
   
   <PropertyGroup>
-    <ILRepackMsBuildPath Condition=" '$(ILRepackMsBuildPath)' == '' And '$(MSBuildRuntimeType)' == 'Core' ">$(MSBuildThisFileDirectory)\..\tools\netcoreapp2.1\ILRepack.Lib.MSBuild.dll</ILRepackMsBuildPath>
+    <ILRepackMsBuildPath Condition=" '$(ILRepackMsBuildPath)' == '' And '$(MSBuildRuntimeType)' == 'Core' ">$(MSBuildThisFileDirectory)\..\tools\netcoreapp3.1\ILRepack.Lib.MSBuild.dll</ILRepackMsBuildPath>
     <ILRepackMsBuildPath Condition=" '$(ILRepackMsBuildPath)' == '' And '$(MSBuildRuntimeType)' != 'Core' ">$(MSBuildThisFileDirectory)\..\tools\net461\ILRepack.Lib.MSBuild.dll</ILRepackMsBuildPath>
 
     <ILRepackTargetsFile Condition=" '$(ILRepackTargetsFile)' == '' ">$(ProjectDir)ILRepack.targets</ILRepackTargetsFile>
@@ -42,7 +42,8 @@
       AllowDuplicateResources="false"
       InputAssemblies="@(ILRepackInputAssemblies)"
       LibraryPath="@(ILRepackAllLibPath)"
-      InternalizeExclude="@(DoNotInternalizeAssemblies)"
+      InternalizeExclude="@(DoNotInternalizePatterns)"
+      InternalizeExcludeAssemblies="@(DoNotInternalizeAssemblies)"
       TargetKind="SameAsPrimaryAssembly"
       KeyFile="$(KeyFile)"
       OutputFile="$(OutputPath)$(TargetName)$(TargetExt)"
