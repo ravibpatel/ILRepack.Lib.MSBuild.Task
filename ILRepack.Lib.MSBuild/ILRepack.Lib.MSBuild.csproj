@@ -5,7 +5,7 @@
     <AssemblyTitle>ILRepack.Lib.MSBuild</AssemblyTitle>
     <Company>Alex Vostres</Company>
     <Product>ILRepack.Lib.MSBuild</Product>
-    <Copyright>Copyright © 2018-2021 Alex Vostres</Copyright>
+    <Copyright>Copyright © 2018-2022 Alex Vostres</Copyright>
     <Version>2.1.18</Version>
     <BuildOutputTargetFolder>tools</BuildOutputTargetFolder>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
