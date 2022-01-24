@@ -7,7 +7,7 @@
     <ILRepackMsBuildPath Condition=" '$(ILRepackMsBuildPath)' == '' And '$(MSBuildRuntimeType)' != 'Core' ">$(MSBuildThisFileDirectory)\..\tools\net461\ILRepack.Lib.MSBuild.dll</ILRepackMsBuildPath>
 
     <ILRepackTargetsFile Condition=" '$(ILRepackTargetsFile)' == '' ">$(ProjectDir)ILRepack.targets</ILRepackTargetsFile>
-    <DoILRepack Condition=" '$(DoILRepack)' == '' and $(Configuration.Contains('Release')) ">true</DoILRepack>
+    <DoILRepack Condition=" '$(DoILRepack)' == '' and $(Configuration.Contains('Release')) and !Exists('$(ILRepackTargetsFile)') ">true</DoILRepack>
     <ILRepackInternalize Condition=" '$(ILRepackInternalize)' == '' and '$(TargetExt)' == '.exe'">true</ILRepackInternalize>
   </PropertyGroup>
   
