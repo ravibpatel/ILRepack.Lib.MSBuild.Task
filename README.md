@@ -17,9 +17,9 @@ You just need to install NuGet package to merge all your project dependencies. I
 ### Example "ILRepack.targets"
 
 ```xml
-<!-- ILRepack -->
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- ILRepack -->
     <Target Name="ILRepacker" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
 
     <ItemGroup>
