@@ -16,4 +16,8 @@
     <language>en-US</language>
     <tags>ILRepack,MSBuild,ILMerge alternative,merge assemblies</tags>
   </metadata>
+  <files>
+    <file src="ILRepack.Lib.MSBuild.Task.dll" target="build" />
+    <file src="ILRepack.Lib.MSBuild.Task.targets" target="build" />
+  </files>
 </package>
