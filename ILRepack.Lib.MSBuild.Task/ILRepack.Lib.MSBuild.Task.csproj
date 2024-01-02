@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
-    <Version>2.0.18.3</Version>
+    <TargetFramework>net472</TargetFramework>
+    <Version>2.0.22</Version>
   </PropertyGroup>
   
   <ItemGroup>
@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ILRepack" Version="2.0.18" GeneratePathProperty="true" />
-    <PackageReference Include="ILRepack.Lib" Version="2.0.18" />
+    <PackageReference Include="ILRepack" Version="2.0.22" GeneratePathProperty="true" />
+    <PackageReference Include="ILRepack.Lib" Version="2.0.22" />
   </ItemGroup>
 
   <ItemGroup>
