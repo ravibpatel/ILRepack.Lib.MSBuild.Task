@@ -2,7 +2,7 @@
  * Copyright (c) 2004, Evain Jb (jb@evain.net)
  * Modified 2007 Marcus Griep (neoeinstein+boo@gmail.com)
  * Modified 2013 Peter Sunde (peter.sunde@gmail.com)
- * Modified 2016-2019 Ravi Patel (www.rbsoft.org)
+ * Modified 2016-2024 Ravi Patel (rbsoft.org)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>ILRepack.Lib.MSBuild.Task</id>
     <version>2.0.22</version>
@@ -16,4 +16,8 @@
     <language>en-US</language>
     <tags>ILRepack,MSBuild,ILMerge alternative,merge assemblies</tags>
   </metadata>
+  <files>
+    <file src="ILRepack.Lib.MSBuild.Task.dll" target="build" />
+    <file src="ILRepack.Lib.MSBuild.Task.targets" target="build" />
+  </files>
 </package>
