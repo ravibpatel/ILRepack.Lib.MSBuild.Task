@@ -12,7 +12,8 @@ MSBuild task for [ILRepack](https://github.com/gluck/il-repack) which is an open
 
 ## Usage
 
-You just need to install NuGet package to merge all your project dependencies. If you want to customize the process then you can create a file named "ILRepack.targets" in your project folder. You can create it like shown below.
+You just need to install NuGet package to merge all your project dependencies. If you want to customize the process then
+you can create a file named "ILRepack.targets" in your project folder. You can create it like shown below.
 
 ### Example "ILRepack.targets"
 
@@ -47,7 +48,8 @@ You just need to install NuGet package to merge all your project dependencies. I
 
 ## Configuration
 
-You need to create "ILRepack.Config.props" file in your project folder to configure the behavior of ILRepack.Lib.MSBuild.Task.
+You need to create "ILRepack.Config.props" file in your project folder to configure the behavior of
+ILRepack.Lib.MSBuild.Task.
 
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
@@ -57,11 +59,13 @@ You need to create "ILRepack.Config.props" file in your project folder to config
 </Project>
 ```
 
-You can specify following options inside the &lt;PropertyGroup&gt; element to configure the behavior of the ILRepack task.
+You can specify following options inside the &lt;PropertyGroup&gt; element to configure the behavior of the ILRepack
+task.
 
 ### Specify your custom Targets file path
 
-If you don't want to add "ILRepack.targets" file in your project folder then you can specify your targets file path as shown below.
+If you don't want to add "ILRepack.targets" file in your project folder then you can specify your targets file path as
+shown below.
 
 ```xml
 <ILRepackTargetsFile>$(SolutionDir)ILRepack.targets</ILRepackTargetsFile>
@@ -69,7 +73,8 @@ If you don't want to add "ILRepack.targets" file in your project folder then you
 
 ### Specify Key File to use for signing
 
-You can specify the path of the SNK file you want to use for signing your assembly as shown below. This configuration option only applies if you are using default targets file provided in NuGet package.
+You can specify the path of the SNK file you want to use for signing your assembly as shown below. This configuration
+option only applies if you are using default targets file provided in NuGet package.
 
 ```xml
 <KeyFile>$(ProjectDir)ILRepack.snk</KeyFile>
@@ -77,7 +82,8 @@ You can specify the path of the SNK file you want to use for signing your assemb
 
 ### Specify whether to clear directory after merging
 
-If you are using default targets file then you may notice that it clears Output directory after merging dependencies. You can turn this functionality off by setting ClearOutputDirectory to False as shown below.
+If you are using default targets file then you may notice that it clears Output directory after merging dependencies.
+You can turn this functionality off by setting ClearOutputDirectory to False as shown below.
 
 ```xml
 <ClearOutputDirectory>False</ClearOutputDirectory>
@@ -87,9 +93,9 @@ If you are using default targets file then you may notice that it clears Output 
 
 | Option                     | Description                                                                                                                                                |
 |----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| KeyFile                    | Specifies a KeyFile to sign the output assembly.                                                                                                           |
-| KeyContainer               | Specifies a KeyContainer to use.                                                                                                                           |
-| LogFile                    | Specifies a logfile to output log information.                                                                                                             |
+| KeyFile                    | Specifies a key file to sign the output assembly.                                                                                                          |
+| KeyContainer               | Specifies a key container to use.                                                                                                                          |
+| LogFile                    | Specifies a log file to output log information.                                                                                                            |
 | Union                      | Merges types with identical names into one.                                                                                                                |
 | DebugInfo                  | Enable/disable symbol file generation.                                                                                                                     |
 | AttributeFile              | Take assembly attributes from the given assembly file.                                                                                                     |
@@ -105,11 +111,12 @@ If you are using default targets file then you may notice that it clears Output 
 | InternalizeExclude         | If Internalize is set to true, any which match these regular expressions will not be internalized. If Internalize is false, then this property is ignored. |
 | OutputFile                 | Output name for the merged assembly.                                                                                                                       |
 | InputAssemblies            | List of assemblies that will be merged.                                                                                                                    |
-| DelaySign                  | Set the keyfile, but don't sign the assembly.                                                                                                              |
+| DelaySign                  | Set the key file, but don't sign the assembly.                                                                                                             |
 | AllowDuplicateResources    | Allows duplicating resources in the output assembly.                                                                                                       |
-| AllowedDuplicateNamespaces | Allows the specified namespaces for being duplicated into input assemblies. Multiple namespaces are delimited by ",".                                      |
+| AllowedDuplicateNamespaces | Allows the specified namespaces from being duplicated into input assemblies. Multiple namespaces are delimited by ",".                                     |
 | ZeroPeKind                 | Allows assemblies with Zero PeKind (but obviously only IL will get merged).                                                                                |
 | Parallel                   | Use as many CPUs as possible to merge the assemblies.                                                                                                      |
+| PauseBeforeExit            | Pause execution once completed (good for debugging).                                                                                                       |
 | Verbose                    | Additional debug information during the merge that will be outputted to LogFile.                                                                           |
 | NoRepackRes                | Does not add the embedded resource 'ILRepack.List' with all merged assembly names.                                                                         |
 | Wildcards                  | Allows (and resolves) file wildcards (e.g., `*.dll`) in input assemblies.                                                                                  |

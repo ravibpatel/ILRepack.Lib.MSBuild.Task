@@ -1,43 +1,10 @@
-/**
- * Copyright (c) 2004, Evain Jb (jb@evain.net)
- * Modified 2007 Marcus Griep (neoeinstein+boo@gmail.com)
- * Modified 2013 Peter Sunde (peter.sunde@gmail.com)
- * Modified 2016-2024 Ravi Patel (rbsoft.org)
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *     - Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     - Redistributions in binary form must reproduce the above copyright
- *       notice, this list of conditions and the following disclaimer in the
- *       documentation and/or other materials provided with the distribution.
- *     - Neither the name of Evain Jb nor the names of its contributors may
- *       be used to endorse or promote products derived from this software
- *       without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- *****************************************************************************/
-
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using ILRepacking;
 using Microsoft.Build.Framework;
-using System.Diagnostics;
 
 namespace ILRepack.Lib.MSBuild.Task
 {
@@ -58,7 +25,7 @@ namespace ILRepack.Lib.MSBuild.Task
         #region Fields
 
         /// <summary>
-        /// Specifies a keyfile to sign the output assembly.
+        ///     Specifies a key file to sign the output assembly.
         /// </summary>
         public virtual string KeyFile
         {
@@ -67,7 +34,7 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        /// Specifies a KeyContainer to use.
+        ///     Specifies a key container to use.
         /// </summary>
         public virtual string KeyContainer
         {
@@ -76,7 +43,7 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        /// Specifies a logfile to output log information.
+        ///     Specifies a log file to output log information.
         /// </summary>
         public virtual string LogFile
         {
@@ -85,17 +52,17 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        /// Merges types with identical names into one.
+        ///     Merges types with identical names into one.
         /// </summary>
         public virtual bool Union { get; set; }
 
         /// <summary>
-        /// Enable/disable symbol file generation.
+        ///     Enable/disable symbol file generation.
         /// </summary>
         public virtual bool DebugInfo { get; set; }
 
         /// <summary>
-        /// Take assembly attributes from the given assembly file.
+        ///     Take assembly attributes from the given assembly file.
         /// </summary>
         public virtual string AttributeFile
         {
@@ -104,17 +71,17 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        /// Copy assembly attributes (by default only the primary assembly attributes are copied).
+        ///     Copy assembly attributes (by default only the primary assembly attributes are copied).
         /// </summary>
         public virtual bool CopyAttributes { get; set; }
 
         /// <summary>
-        /// Allows multiple attributes (if type allows).
+        ///     Allows multiple attributes (if type allows).
         /// </summary>
         public virtual bool AllowMultiple { get; set; }
 
         /// <summary>
-        /// Target assembly kind (Exe|Dll|WinExe|SameAsPrimaryAssembly).
+        ///     Target assembly kind (Exe|Dll|WinExe|SameAsPrimaryAssembly).
         /// </summary>
         public virtual string TargetKind
         {
@@ -123,7 +90,7 @@ namespace ILRepack.Lib.MSBuild.Task
             {
                 if (Enum.IsDefined(typeof(ILRepacking.ILRepack.Kind), value))
                 {
-                    _targetKind = (ILRepacking.ILRepack.Kind) Enum.Parse(typeof(ILRepacking.ILRepack.Kind), value);
+                    _targetKind = (ILRepacking.ILRepack.Kind)Enum.Parse(typeof(ILRepacking.ILRepack.Kind), value);
                 }
                 else
                 {
@@ -136,43 +103,43 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        /// Target platform (v1, v1.1, v2, v4 supported).
+        ///     Target platform (v1, v1.1, v2, v4 supported).
         /// </summary>
         public virtual string TargetPlatformVersion { get; set; }
 
         /// <summary>
-        /// Path of Directory where target platform is located.
+        ///     Path of Directory where the target platform is located.
         /// </summary>
         public virtual string TargetPlatformDirectory { get; set; }
 
         /// <summary>
-        /// Merge assembly xml documentation.
+        ///     Merge assembly XML documentation.
         /// </summary>
         public bool XmlDocumentation { get; set; }
 
         /// <summary>
-        /// List of paths to use as "include directories" when attempting to merge assemblies.
+        ///     List of paths to use as "include directories" when attempting to merge assemblies.
         /// </summary>
         public virtual ITaskItem[] LibraryPath { get; set; } = new ITaskItem[0];
 
         /// <summary>
-        /// Set all types but the ones from the first assembly 'internal'.
+        ///     Set all types but the ones from the first assembly 'internal'.
         /// </summary>
         public virtual bool Internalize { get; set; }
 
         /// <summary>
-        /// Rename all internalized types (to be used when Internalize is enabled).
+        ///     Rename all internalized types (to be used when Internalize is enabled).
         /// </summary>
         public virtual bool RenameInternalized { get; set; }
 
         /// <summary>
-        /// If Internalize is set to true, any which match these regular expressions will not be internalized. 
-        /// If internalize is false, then this property is ignored.
+        ///     If Internalize is set to true, any which match these regular expressions will not be internalized.
+        ///     If Internalize is false, then this property is ignored.
         /// </summary>
         public virtual ITaskItem[] InternalizeExclude { get; set; }
 
         /// <summary>
-        /// Output name for merged assembly.
+        ///     Output name for the merged assembly.
         /// </summary>
         [Required]
         public virtual string OutputFile
@@ -182,61 +149,62 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        /// List of assemblies that will be merged.
+        ///     List of assemblies that will be merged.
         /// </summary>
         [Required]
         public virtual ITaskItem[] InputAssemblies { get; set; } = new ITaskItem[0];
 
         /// <summary>
-        /// Set the keyfile, but don't sign the assembly.
+        ///     Set the key file, but don't sign the assembly.
         /// </summary>
         public virtual bool DelaySign { get; set; }
 
         /// <summary>
-        /// Allows to duplicate resources in output assembly (by default they're ignored).
+        ///     Allows duplicating resources in the output assembly (by default they're ignored).
         /// </summary>
         public virtual bool AllowDuplicateResources { get; set; }
 
         /// <summary>
-        /// Allows the specified namespaces for being duplicated in to input assemblies.
+        ///     Allows the specified namespaces from being duplicated into input assemblies.
+        ///     Multiple namespaces are delimited by ",".
         /// </summary>
         public virtual string AllowedDuplicateNamespaces { get; set; }
 
         /// <summary>
-        /// Allows assemblies with Zero PeKind (but obviously only IL will get merged).
+        ///     Allows assemblies with Zero PeKind (but obviously only IL will get merged).
         /// </summary>
         public virtual bool ZeroPeKind { get; set; }
 
         /// <summary>
-        /// Use as many CPUs as possible to merge the assemblies.
+        ///     Use as many CPUs as possible to merge the assemblies.
         /// </summary>
         public virtual bool Parallel { get; set; } = true;
 
         /// <summary>
-        /// Pause execution once completed (good for debugging).
+        ///     Pause execution once completed (good for debugging).
         /// </summary>
         public virtual bool PauseBeforeExit { get; set; }
 
         /// <summary>
-        /// Additional debug information during merge that will be outputted to LogFile.
+        ///     Additional debug information during the merge that will be outputted to LogFile.
         /// </summary>
         public virtual bool Verbose { get; set; }
 
         /// <summary>
-        /// Does not add the embedded resource 'ILRepack.List' with all merged assembly names.
+        ///     Does not add the embedded resource 'ILRepack.List' with all merged assembly names.
         /// </summary>
         public virtual bool NoRepackRes { get; set; }
 
         /// <summary>
-        /// Allows (and resolves) file wildcards (e.g. `*`.dll) in input assemblies.
+        ///     Allows (and resolves) file wildcards (e.g., `*.dll`) in input assemblies.
         /// </summary>
         public virtual bool Wildcards { get; set; }
 
         /// <summary>
-        /// Name of an attribute. Members in InputAssemblies marked with this attribute will be
-        /// dropped during merging.
+        ///     Name of an attribute (optional). Members in input assemblies marked with this attribute will be dropped during merging.
         /// </summary>
         public string RepackDropAttribute { get; set; }
+
         #endregion
 
         #region Public methods
@@ -275,9 +243,10 @@ namespace ILRepack.Lib.MSBuild.Task
                 RepackDropAttribute = RepackDropAttribute
             };
 
-            repackOptions.AllowedDuplicateNameSpaces.AddRange(ParseDuplicateNamespacesOption(AllowedDuplicateNamespaces));
+            repackOptions.AllowedDuplicateNameSpaces.AddRange(
+                ParseDuplicateNamespacesOption(AllowedDuplicateNamespaces));
 
-            Logger logger = new Logger
+            var logger = new Logger
             {
                 ShouldLogVerbose = repackOptions.LogVerbose
             };
@@ -285,7 +254,7 @@ namespace ILRepack.Lib.MSBuild.Task
             try
             {
                 // Attempt to create output directory if it does not exist.
-                var outputPath = Path.GetDirectoryName(OutputFile);
+                string outputPath = Path.GetDirectoryName(OutputFile);
                 if (outputPath != null && !Directory.Exists(outputPath))
                 {
                     try
@@ -301,7 +270,7 @@ namespace ILRepack.Lib.MSBuild.Task
 
                 // Assemblies to be merged.
                 var assemblies = new string[InputAssemblies.Length];
-                for (int i = 0; i < InputAssemblies.Length; i++)
+                for (var i = 0; i < InputAssemblies.Length; i++)
                 {
                     assemblies[i] = InputAssemblies[i].ItemSpec;
                     if (string.IsNullOrEmpty(assemblies[i]))
@@ -323,7 +292,7 @@ namespace ILRepack.Lib.MSBuild.Task
                     var internalizeExclude = new string[InternalizeExclude.Length];
                     if (Internalize)
                     {
-                        for (int i = 0; i < InternalizeExclude.Length; i++)
+                        for (var i = 0; i < InternalizeExclude.Length; i++)
                         {
                             internalizeExclude[i] = InternalizeExclude[i].ItemSpec;
                             if (string.IsNullOrEmpty(internalizeExclude[i]))
@@ -347,7 +316,7 @@ namespace ILRepack.Lib.MSBuild.Task
                 repackOptions.InputAssemblies = assemblies;
 
                 // Path that will be used when searching for assemblies to merge.
-                var searchPath = new List<string> {"."};
+                var searchPath = new List<string> { "." };
                 searchPath.AddRange(LibraryPath.Select(iti => BuildPath(iti.ItemSpec)));
                 repackOptions.SearchDirectories = searchPath.ToArray();
 
@@ -356,7 +325,7 @@ namespace ILRepack.Lib.MSBuild.Task
                     InputAssemblies.Length, InputAssemblies.Length != 1 ? "ies" : "y", _outputFile);
 
                 // Measure performance
-                Stopwatch stopWatch = new Stopwatch();
+                var stopWatch = new Stopwatch();
                 stopWatch.Start();
 
                 if (logger.Open(repackOptions.LogFile))
@@ -364,7 +333,7 @@ namespace ILRepack.Lib.MSBuild.Task
                     repackOptions.Log = true;
                 }
 
-                ILRepacking.ILRepack ilRepack = new ILRepacking.ILRepack(repackOptions, logger);
+                var ilRepack = new ILRepacking.ILRepack(repackOptions, logger);
                 ilRepack.Repack();
 
                 stopWatch.Stop();
@@ -388,19 +357,17 @@ namespace ILRepack.Lib.MSBuild.Task
         #region Private methods
 
         /// <summary>
-        /// Parses the command line options for AllowedDuplicateNameSpaces.
+        ///     Parses the command line options for AllowedDuplicateNameSpaces.
         /// </summary>
         /// <param name="value">The given options.</param>
         /// <returns>A collection of all allowed namespace duplicates.</returns>
         private static IEnumerable<string> ParseDuplicateNamespacesOption(string value)
         {
-            if (string.IsNullOrEmpty(value)) return new string[0];
-
-            return value.Split(',');
+            return string.IsNullOrEmpty(value) ? Array.Empty<string>() : value.Split(',');
         }
 
         /// <summary>
-        /// Converts empty string to null.
+        ///     Converts empty string to null.
         /// </summary>
         /// <param name="str">String to check for emptiness</param>
         /// <returns></returns>
@@ -410,13 +377,13 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        /// Returns path respective to current working directory.
+        ///     Returns path respective to current working directory.
         /// </summary>
         /// <param name="path">Relative path to current working directory</param>
         /// <returns></returns>
-        private string BuildPath(string path)
+        private static string BuildPath(string path)
         {
-            var workDir = Directory.GetCurrentDirectory();
+            string workDir = Directory.GetCurrentDirectory();
             return string.IsNullOrEmpty(path) ? null : Path.Combine(workDir, path);
         }
 

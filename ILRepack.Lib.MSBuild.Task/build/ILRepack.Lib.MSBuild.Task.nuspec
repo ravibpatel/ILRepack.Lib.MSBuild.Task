@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
-  <metadata>
-    <id>ILRepack.Lib.MSBuild.Task</id>
-    <version>2.0.22</version>
-    <title>ILRepack.Lib.MSBuild.Task</title>
-    <authors>RBSoft</authors>
-    <owners>rbsoft</owners>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <license type="expression">MIT</license>
-    <projectUrl>https://github.com/ravibpatel/ILRepack.Lib.MSBuild.Task</projectUrl>
-    <description>MSBuild task for ILRepack which is an open-source alternative to ILMerge. This library uses ILRepack.lib so it is easier to upgrade.</description>
-    <summary>MSBuild task for ILRepack which is an open-source alternative to ILMerge.</summary>
-    <releaseNotes>https://github.com/ravibpatel/ILRepack.Lib.MSBuild.Task/releases</releaseNotes>
-    <copyright>RBSoft</copyright>
-    <language>en-US</language>
-    <tags>ILRepack,MSBuild,ILMerge alternative,merge assemblies</tags>
-  </metadata>
-  <files>
-    <file src="ILRepack.Lib.MSBuild.Task.dll" target="build" />
-    <file src="ILRepack.Lib.MSBuild.Task.targets" target="build" />
-  </files>
+    <metadata>
+        <id>ILRepack.Lib.MSBuild.Task</id>
+        <version>2.0.22</version>
+        <title>ILRepack.Lib.MSBuild.Task</title>
+        <authors>RBSoft</authors>
+        <owners>rbsoft</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <license type="expression">MIT</license>
+        <projectUrl>https://github.com/ravibpatel/ILRepack.Lib.MSBuild.Task</projectUrl>
+        <description>MSBuild task for ILRepack which is an open-source alternative to ILMerge. This library uses ILRepack.Lib so it is easier to upgrade.</description>
+        <summary>MSBuild task for ILRepack which is an open-source alternative to ILMerge.</summary>
+        <releaseNotes>https://github.com/ravibpatel/ILRepack.Lib.MSBuild.Task/releases</releaseNotes>
+        <copyright>RBSoft</copyright>
+        <language>en-US</language>
+        <tags>ILRepack,MSBuild,ILMerge alternative,merge assemblies</tags>
+    </metadata>
+    <files>
+        <file src="ILRepack.Lib.MSBuild.Task.dll" target="build"/>
+        <file src="ILRepack.Lib.MSBuild.Task.targets" target="build"/>
+    </files>
 </package>

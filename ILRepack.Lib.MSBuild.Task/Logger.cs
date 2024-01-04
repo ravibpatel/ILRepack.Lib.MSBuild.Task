@@ -4,36 +4,12 @@ using ILRepacking;
 
 namespace ILRepack.Lib.MSBuild.Task
 {
-    class Logger : ILogger
+    internal class Logger : ILogger
     {
         private string _outputFile;
         private StreamWriter _writer;
 
         public bool ShouldLogVerbose { get; set; }
-
-        public void Log(object str)
-        {
-            string logStr = str.ToString();
-            Console.WriteLine(logStr);
-            _writer?.WriteLine(logStr);
-        }
-
-        public bool Open(string file)
-        {
-            if (string.IsNullOrEmpty(file))
-                return false;
-            _outputFile = file;
-            _writer = new StreamWriter(_outputFile);
-            return true;
-        }
-
-        public void Close()
-        {
-            if (_writer == null)
-                return;
-            _writer.Close();
-            _writer = null;
-        }
 
         public void Error(string msg)
         {
@@ -53,7 +29,39 @@ namespace ILRepack.Lib.MSBuild.Task
         public void Verbose(string msg)
         {
             if (ShouldLogVerbose)
+            {
                 Log($"VERBOSE: {msg}");
+            }
+        }
+
+        public void Log(object str)
+        {
+            var logStr = str.ToString();
+            Console.WriteLine(logStr);
+            _writer?.WriteLine(logStr);
+        }
+
+        public bool Open(string file)
+        {
+            if (string.IsNullOrEmpty(file))
+            {
+                return false;
+            }
+
+            _outputFile = file;
+            _writer = new StreamWriter(_outputFile);
+            return true;
+        }
+
+        public void Close()
+        {
+            if (_writer == null)
+            {
+                return;
+            }
+
+            _writer.Close();
+            _writer = null;
         }
 
         public void DuplicateIgnored(string ignoredType, object ignoredObject)

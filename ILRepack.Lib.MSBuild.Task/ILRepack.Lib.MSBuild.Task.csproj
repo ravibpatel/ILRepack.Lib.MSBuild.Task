@@ -1,51 +1,51 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <Version>2.0.22</Version>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="ILRepack" Version="2.0.22" GeneratePathProperty="true" />
-    <PackageReference Include="ILRepack.Lib" Version="2.0.22" />
-    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.8.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="build\ILRepack.Lib.MSBuild.Task.nuspec" />
-    <None Include="ILRepack.Config.props" />
-    <None Include="ILRepack.Lib.MSBuild.Task.snk" />
-    <None Include="ILRepack.Lib.MSBuild.Task.targets" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
-  <Target Name="Repack" AfterTargets="Build">
-    <Exec Command="&quot;$(ILRepack)&quot; /out:ILRepack.Lib.MSBuild.Task.dll ILRepack.Lib.MSBuild.Task.dll ILRepack.dll"
-        WorkingDirectory="$(OutDir)"
-        ConsoleToMSBuild="True" />
-  </Target>
-
-  <Target Name="PrepareNupkgInfo">
     <PropertyGroup>
-      <NuspecPath>$(MSBuildThisFileDirectory)build\ILRepack.Lib.MSBuild.Task.nuspec</NuspecPath>
-      <NupkgPath>$(OutDir)ILRepack.Lib.MSBuild.Task.$(Version).nupkg</NupkgPath>
+        <TargetFramework>net472</TargetFramework>
+        <Version>2.0.22</Version>
     </PropertyGroup>
-  </Target>
 
-  <Target Name="CreateNupkg"
-          Condition="$(Configuration) == 'Release'"
-          AfterTargets="Build"
-          DependsOnTargets="Repack;PrepareNupkgInfo"
-          Inputs="$(NuspecPath);$(TargetPath);$(MSBuildThisFileFullPath)"
-          Outputs="$(NupkgPath)">
-    <PackTask
-        PackItem="$(NuspecPath)"
-        NuspecFile="$(NuspecPath)"
-        NuspecProperties="version=$(Version)"
-        NuspecBasePath="$(OutDir)"
-        NuspecOutputPath="$(NuspecOutputPath)"
-        PackageOutputPath="$(OutDir)"
-        RestoreOutputPath="$(RestoreOutputPath)"
-        SymbolPackageFormat="snupkg" />
-  </Target>
+    <ItemGroup>
+        <PackageReference Include="ILRepack" Version="2.0.22" GeneratePathProperty="true"/>
+        <PackageReference Include="ILRepack.Lib" Version="2.0.22"/>
+        <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.8.3"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="build\ILRepack.Lib.MSBuild.Task.nuspec"/>
+        <None Include="ILRepack.Config.props"/>
+        <None Include="ILRepack.Lib.MSBuild.Task.snk"/>
+        <None Include="ILRepack.Lib.MSBuild.Task.targets" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+
+    <Target Name="Repack" AfterTargets="Build">
+        <Exec Command="&quot;$(ILRepack)&quot; /out:ILRepack.Lib.MSBuild.Task.dll ILRepack.Lib.MSBuild.Task.dll ILRepack.dll"
+              WorkingDirectory="$(OutDir)"
+              ConsoleToMSBuild="True"/>
+    </Target>
+
+    <Target Name="PrepareNupkgInfo">
+        <PropertyGroup>
+            <NuspecPath>$(MSBuildThisFileDirectory)build\ILRepack.Lib.MSBuild.Task.nuspec</NuspecPath>
+            <NupkgPath>$(OutDir)ILRepack.Lib.MSBuild.Task.$(Version).nupkg</NupkgPath>
+        </PropertyGroup>
+    </Target>
+
+    <Target Name="CreateNupkg"
+            Condition="$(Configuration) == 'Release'"
+            AfterTargets="Build"
+            DependsOnTargets="Repack;PrepareNupkgInfo"
+            Inputs="$(NuspecPath);$(TargetPath);$(MSBuildThisFileFullPath)"
+            Outputs="$(NupkgPath)">
+        <PackTask
+                PackItem="$(NuspecPath)"
+                NuspecFile="$(NuspecPath)"
+                NuspecProperties="version=$(Version)"
+                NuspecBasePath="$(OutDir)"
+                NuspecOutputPath="$(NuspecOutputPath)"
+                PackageOutputPath="$(OutDir)"
+                RestoreOutputPath="$(RestoreOutputPath)"
+                SymbolPackageFormat="snupkg"/>
+    </Target>
 
 </Project>
