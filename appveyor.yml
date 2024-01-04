@@ -16,7 +16,8 @@ before_build:
 - secure-file\tools\secure-file -decrypt "c:\projects\ILRepack.Lib.MSBuild.Task\ILRepack.Lib.MSBuild.Task\ILRepack.Lib.MSBuild.Task.snk.enc" -secret %my_secret%
 
 artifacts:
-- path: ILRepack.Lib.MSBuild.Task\bin\Release\net462\ILRepack.Lib.MSBuild.Task.%my_version%.nupkg
+- path: ILRepack.Lib.MSBuild.Task\bin\Release\net472\ILRepack.Lib.MSBuild.Task.%my_version%.nupkg
+  name: ILRepack.Lib.MSBuild.Task.%my_version%.nupkg
 
 deploy:
 - provider: NuGet

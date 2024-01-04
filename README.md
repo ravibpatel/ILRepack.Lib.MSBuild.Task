@@ -21,30 +21,28 @@ You just need to install NuGet package to merge all your project dependencies. I
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <!-- ILRepack -->
     <Target Name="ILRepacker" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
-
-    <ItemGroup>
-        <InputAssemblies Include="$(OutputPath)\ExampleAssemblyToMerge1.dll" />
-        <InputAssemblies Include="$(OutputPath)\ExampleAssemblyToMerge2.dll" />
-        <InputAssemblies Include="$(OutputPath)\ExampleAssemblyToMerge3.dll" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <!-- Must be a fully qualified name -->
-        <DoNotInternalizeAssemblies Include="ExampleAssemblyToMerge3" />
-    </ItemGroup>
-
-    <ILRepack
-        Parallel="true"
-        Internalize="true"
-        InternalizeExclude="@(DoNotInternalizeAssemblies)"
-        InputAssemblies="@(InputAssemblies)"
-        TargetKind="Dll"
-        OutputFile="$(OutputPath)\$(AssemblyName).dll"
-    />
-
+        <ItemGroup>
+            <InputAssemblies Include="$(OutputPath)\ExampleAssemblyToMerge1.dll" />
+            <InputAssemblies Include="$(OutputPath)\ExampleAssemblyToMerge2.dll" />
+            <InputAssemblies Include="$(OutputPath)\ExampleAssemblyToMerge3.dll" />
+        </ItemGroup>
+    
+        <ItemGroup>
+            <!-- Must be a fully qualified name -->
+            <DoNotInternalizeAssemblies Include="ExampleAssemblyToMerge3" />
+        </ItemGroup>
+    
+        <ILRepack
+            Parallel="true"
+            Internalize="true"
+            InternalizeExclude="@(DoNotInternalizeAssemblies)"
+            InputAssemblies="@(InputAssemblies)"
+            TargetKind="Dll"
+            OutputFile="$(OutputPath)\$(AssemblyName).dll"
+        />
     </Target>
+    <!-- /ILRepack -->
 </Project>
-<!-- /ILRepack -->
 ```
 
 ## Configuration
@@ -96,7 +94,7 @@ If you are using default targets file then you may notice that it clears Output 
             Description
         </th>
     </tr>
-	<tr>
+    <tr>
         <td>
            KeyFile
         </td>
@@ -104,7 +102,7 @@ If you are using default targets file then you may notice that it clears Output 
             Specifies a KeyFile to sign the output assembly.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
            KeyContainer
         </td>
@@ -112,7 +110,7 @@ If you are using default targets file then you may notice that it clears Output 
             Specifies a KeyContainer to use.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
            LogFile
         </td>
@@ -120,7 +118,7 @@ If you are using default targets file then you may notice that it clears Output 
            Specifies a logfile to output log information.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
            Union
         </td>
@@ -128,7 +126,7 @@ If you are using default targets file then you may notice that it clears Output 
            Merges types with identical names into one.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             DebugInfo
         </td>
@@ -136,7 +134,7 @@ If you are using default targets file then you may notice that it clears Output 
             Enable/disable symbol file generation.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             AttributeFile
         </td>
@@ -144,7 +142,7 @@ If you are using default targets file then you may notice that it clears Output 
             Take assembly attributes from the given assembly file.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             CopyAttributes
         </td>
@@ -152,7 +150,7 @@ If you are using default targets file then you may notice that it clears Output 
             Copy assembly attributes.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             AllowMultiple
         </td>
@@ -160,7 +158,7 @@ If you are using default targets file then you may notice that it clears Output 
             Allows multiple attributes (if type allows).
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             TargetKind
         </td>
@@ -168,7 +166,7 @@ If you are using default targets file then you may notice that it clears Output 
             Target assembly kind (Exe|Dll|WinExe|SameAsPrimaryAssembly).
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             TargetPlatformVersion
         </td>
@@ -176,7 +174,7 @@ If you are using default targets file then you may notice that it clears Output 
             Target platform (v1, v1.1, v2, v4 supported).
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             TargetPlatformDirectory
         </td>
@@ -184,7 +182,7 @@ If you are using default targets file then you may notice that it clears Output 
             Path of Directory where target platform is located.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             XmlDocumentation
         </td>
@@ -192,7 +190,7 @@ If you are using default targets file then you may notice that it clears Output 
             Merge assembly xml documentation.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             LibraryPath
         </td>
@@ -200,7 +198,7 @@ If you are using default targets file then you may notice that it clears Output 
             List of paths to use as "include directories" when attempting to merge assemblies.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             Internalize
         </td>
@@ -208,7 +206,7 @@ If you are using default targets file then you may notice that it clears Output 
             Set all types but the ones from the first assembly 'internal'.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             RenameInternalized
         </td>
@@ -216,7 +214,7 @@ If you are using default targets file then you may notice that it clears Output 
             Rename all internalized types (to be used when Internalize is enabled).
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             InternalizeExclude
         </td>
@@ -224,7 +222,7 @@ If you are using default targets file then you may notice that it clears Output 
             If Internalize is set to true, any which match these regular expressions will not be internalized. If internalize is false, then this property is ignored.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             OutputFile
         </td>
@@ -232,7 +230,7 @@ If you are using default targets file then you may notice that it clears Output 
             Output name for merged assembly.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             InputAssemblies
         </td>
@@ -240,7 +238,7 @@ If you are using default targets file then you may notice that it clears Output 
             List of assemblies that will be merged.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             DelaySign
         </td>
@@ -248,7 +246,7 @@ If you are using default targets file then you may notice that it clears Output 
             Set the keyfile, but don't sign the assembly.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             AllowDuplicateResources
         </td>
@@ -264,7 +262,7 @@ If you are using default targets file then you may notice that it clears Output 
             Allows the specified namespaces for being duplicated in to input assemblies. Multiple namespaces are delimited by ",".
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             ZeroPeKind
         </td>
@@ -272,7 +270,7 @@ If you are using default targets file then you may notice that it clears Output 
             Allows assemblies with Zero PeKind (but obviously only IL will get merged).
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             Parallel
         </td>
@@ -280,7 +278,7 @@ If you are using default targets file then you may notice that it clears Output 
             Use as many CPUs as possible to merge the assemblies.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             Verbose
         </td>
@@ -296,7 +294,7 @@ If you are using default targets file then you may notice that it clears Output 
             Does not add the embedded resource 'ILRepack.List' with all merged assembly names.
         </td>
     </tr>
-	<tr>
+    <tr>
         <td>
             Wildcards
         </td>
