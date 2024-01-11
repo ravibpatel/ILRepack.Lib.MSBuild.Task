@@ -133,6 +133,11 @@ namespace ILRepack.Lib.MSBuild.Task
         public virtual bool RenameInternalized { get; set; }
 
         /// <summary>
+        ///     Do not internalize types marked as Serializable.
+        /// </summary>
+        public virtual bool ExcludeInternalizeSerializable { get; set; }
+
+        /// <summary>
         ///     If Internalize is set to true, any which match these regular expressions will not be internalized.
         ///     If Internalize is false, then this property is ignored.
         /// </summary>
@@ -233,6 +238,7 @@ namespace ILRepack.Lib.MSBuild.Task
                 XmlDocumentation = XmlDocumentation,
                 Internalize = Internalize,
                 RenameInternalized = RenameInternalized,
+                ExcludeInternalizeSerializable = ExcludeInternalizeSerializable,
                 DelaySign = DelaySign,
                 AllowDuplicateResources = AllowDuplicateResources,
                 AllowZeroPeKind = ZeroPeKind,
