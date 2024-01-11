@@ -6,6 +6,7 @@
         <title>ILRepack.Lib.MSBuild.Task</title>
         <authors>RBSoft</authors>
         <owners>rbsoft</owners>
+        <developmentDependency>true</developmentDependency>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <license type="expression">MIT</license>
         <projectUrl>https://github.com/ravibpatel/ILRepack.Lib.MSBuild.Task</projectUrl>
