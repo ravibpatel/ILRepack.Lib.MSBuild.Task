@@ -107,6 +107,7 @@ You can turn this functionality off by setting ClearOutputDirectory to False as 
 | XmlDocumentation               | Merge assembly XML documentation.                                                                                                                          |
 | LibraryPath                    | List of paths to use as "include directories" when attempting to merge assemblies.                                                                         |
 | Internalize                    | Set all types but the ones from the first assembly 'internal'.                                                                                             |
+| InternalizeAssembly            | Internalize only specific assemblies (list of assembly names without path or extension).                                                                   |
 | RenameInternalized             | Rename all internalized types (to be used when Internalize is enabled).                                                                                    |
 | ExcludeInternalizeSerializable | Do not internalize types marked as Serializable.                                                                                                           |
 | InternalizeExclude             | If Internalize is set to true, any which match these regular expressions will not be internalized. If Internalize is false, then this property is ignored. |

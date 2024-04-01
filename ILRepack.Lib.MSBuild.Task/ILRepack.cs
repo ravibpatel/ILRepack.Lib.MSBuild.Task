@@ -144,6 +144,11 @@ namespace ILRepack.Lib.MSBuild.Task
         public virtual ITaskItem[] InternalizeExclude { get; set; }
 
         /// <summary>
+        ///     List of specific assemblies to internalize.
+        /// </summary>
+        public virtual ITaskItem[] InternalizeAssembly { get; set; }
+
+        /// <summary>
         ///     Output name for the merged assembly.
         /// </summary>
         [Required]
@@ -321,6 +326,11 @@ namespace ILRepack.Lib.MSBuild.Task
 
                 repackOptions.InputAssemblies = assemblies;
 
+                if (InternalizeAssembly != null && InternalizeAssembly.Any())
+                {
+                    repackOptions.InternalizeAssemblies = InternalizeAssembly.Select(i => StripExtension(i.ItemSpec)).ToArray();
+                }
+
                 // Path that will be used when searching for assemblies to merge.
                 var searchPath = new List<string> { "." };
                 searchPath.AddRange(LibraryPath.Select(iti => BuildPath(iti.ItemSpec)));
@@ -391,6 +401,26 @@ namespace ILRepack.Lib.MSBuild.Task
         {
             string workDir = Directory.GetCurrentDirectory();
             return string.IsNullOrEmpty(path) ? null : Path.Combine(workDir, path);
+        }
+
+        /// <summary>
+        ///     Strips .dll or .exe extension from filePath if present.
+        /// </summary>
+        /// <param name="filePath">File path</param>
+        /// <returns>File path without the extension.</returns>
+        private static string StripExtension(string filePath)
+        {
+            if (filePath == null)
+            {
+                return null;
+            }
+
+            if (filePath.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) || filePath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+            {
+                filePath = filePath.Substring(0, filePath.Length - 4);
+            }
+
+            return filePath;
         }
 
         #endregion
