@@ -1,6 +1,6 @@
-version: 2.0.33.{build}
+version: 2.0.34.{build}
 environment:
-  my_version: 2.0.33
+  my_version: 2.0.34
   my_secret:
     secure: 5qtuEW0UQ/IEO8DRi4/y3EgEBoJDM/HyYpPgzasIlm0=
 skip_branch_with_pr: true
@@ -22,7 +22,7 @@ artifacts:
 deploy:
   - provider: NuGet
     api_key:
-      secure: niHgnyEf7tXImWdR3VEJ38p/3gaV7OiSijx0YUmycHTkh12id6zMKkTS+S2XjF2J
+      secure: nkE/u7bLXRlBGJEKORohjPizTbDTdypw5jeTfJyzNd4scE6W9c6wFfT8f4UXdNKx
     skip_symbols: false
     artifact: ILRepack.Lib.MSBuild.Task.%my_version%.nupkg
     on:
