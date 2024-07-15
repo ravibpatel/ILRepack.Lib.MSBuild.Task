@@ -213,7 +213,7 @@ namespace ILRepack.Lib.MSBuild.Task
         /// <summary>
         ///     Name of an attribute (optional). Members in input assemblies marked with this attribute will be dropped during merging.
         /// </summary>
-        public string RepackDropAttribute { get; set; }
+        public virtual string RepackDropAttribute { get; set; }
 
         #endregion
 
@@ -329,6 +329,11 @@ namespace ILRepack.Lib.MSBuild.Task
                 if (InternalizeAssembly != null && InternalizeAssembly.Any())
                 {
                     repackOptions.InternalizeAssemblies = InternalizeAssembly.Select(i => StripExtension(i.ItemSpec)).ToArray();
+                }
+
+                if (!string.IsNullOrWhiteSpace(repackOptions.RepackDropAttribute))
+                {
+                    repackOptions.RepackDropAttributes.UnionWith(RepackDropAttribute.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
                 }
 
                 // Path that will be used when searching for assemblies to merge.
