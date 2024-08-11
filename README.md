@@ -93,33 +93,33 @@ You can turn this functionality off by setting ClearOutputDirectory to False as 
 
 | Option                         | Description                                                                                                                                                |
 |--------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| KeyFile                        | Specifies a key file to sign the output assembly.                                                                                                          |
-| KeyContainer                   | Specifies a key container to use.                                                                                                                          |
-| LogFile                        | Specifies a log file to output log information.                                                                                                            |
-| Union                          | Merges types with identical names into one.                                                                                                                |
-| DebugInfo                      | Enable/disable symbol file generation.                                                                                                                     |
+| AllowDuplicateResources        | Allows duplicating resources in the output assembly.                                                                                                       |
+| AllowMultiple                  | Allows multiple attributes (if type allows).                                                                                                               |
+| AllowedDuplicateNamespaces     | Allows the specified namespaces from being duplicated into input assemblies. Multiple namespaces are delimited by ",".                                     |
 | AttributeFile                  | Take assembly attributes from the given assembly file.                                                                                                     |
 | CopyAttributes                 | Copy assembly attributes.                                                                                                                                  |
-| AllowMultiple                  | Allows multiple attributes (if type allows).                                                                                                               |
-| TargetKind                     | Target assembly kind (Exe\|Dll\|WinExe\|SameAsPrimaryAssembly)                                                                                             |
-| TargetPlatformVersion          | Target platform (v1, v1.1, v2, v4 supported).                                                                                                              |
-| TargetPlatformDirectory        | Path of Directory where the target platform is located.                                                                                                    |
-| XmlDocumentation               | Merge assembly XML documentation.                                                                                                                          |
-| LibraryPath                    | List of paths to use as "include directories" when attempting to merge assemblies.                                                                         |
+| DebugInfo                      | Enable/disable symbol file generation.                                                                                                                     |
+| DelaySign                      | Set the key file, but don't sign the assembly.                                                                                                             |
+| ExcludeInternalizeSerializable | Do not internalize types marked as Serializable.                                                                                                           |
+| InputAssemblies                | List of assemblies that will be merged.                                                                                                                    |
 | Internalize                    | Set all types but the ones from the first assembly 'internal'.                                                                                             |
 | InternalizeAssembly            | Internalize only specific assemblies (list of assembly names without path or extension).                                                                   |
-| RenameInternalized             | Rename all internalized types (to be used when Internalize is enabled).                                                                                    |
-| ExcludeInternalizeSerializable | Do not internalize types marked as Serializable.                                                                                                           |
 | InternalizeExclude             | If Internalize is set to true, any which match these regular expressions will not be internalized. If Internalize is false, then this property is ignored. |
+| KeyContainer                   | Specifies a key container to use.                                                                                                                          |
+| KeyFile                        | Specifies a key file to sign the output assembly.                                                                                                          |
+| LibraryPath                    | List of paths to use as "include directories" when attempting to merge assemblies.                                                                         |
+| LogFile                        | Specifies a log file to output log information.                                                                                                            |
+| NoRepackRes                    | Does not add the embedded resource 'ILRepack.List' with all merged assembly names.                                                                         |
 | OutputFile                     | Output name for the merged assembly.                                                                                                                       |
-| InputAssemblies                | List of assemblies that will be merged.                                                                                                                    |
-| DelaySign                      | Set the key file, but don't sign the assembly.                                                                                                             |
-| AllowDuplicateResources        | Allows duplicating resources in the output assembly.                                                                                                       |
-| AllowedDuplicateNamespaces     | Allows the specified namespaces from being duplicated into input assemblies. Multiple namespaces are delimited by ",".                                     |
-| ZeroPeKind                     | Allows assemblies with Zero PeKind (but obviously only IL will get merged).                                                                                |
 | Parallel                       | Use as many CPUs as possible to merge the assemblies.                                                                                                      |
 | PauseBeforeExit                | Pause execution once completed (good for debugging).                                                                                                       |
-| Verbose                        | Additional debug information during the merge that will be outputted to LogFile.                                                                           |
-| NoRepackRes                    | Does not add the embedded resource 'ILRepack.List' with all merged assembly names.                                                                         |
-| Wildcards                      | Allows (and resolves) file wildcards (e.g., `*.dll`) in input assemblies.                                                                                  |
+| RenameInternalized             | Rename all internalized types (to be used when Internalize is enabled).                                                                                    |
 | RepackDropAttribute            | Name of an attribute (optional). Members in input assemblies marked with this attribute will be dropped during merging.                                    |
+| TargetKind                     | Target assembly kind (Exe\|Dll\|WinExe\|SameAsPrimaryAssembly)                                                                                             |
+| TargetPlatformDirectory        | Path of Directory where the target platform is located.                                                                                                    |
+| TargetPlatformVersion          | Target platform (v1, v1.1, v2, v4 supported).                                                                                                              |
+| Union                          | Merges types with identical names into one.                                                                                                                |
+| Verbose                        | Additional debug information during the merge that will be outputted to LogFile.                                                                           |
+| Wildcards                      | Allows (and resolves) file wildcards (e.g., `*.dll`) in input assemblies.                                                                                  |
+| XmlDocumentation               | Merge assembly XML documentation.                                                                                                                          |
+| ZeroPeKind                     | Allows assemblies with Zero PeKind (but obviously only IL will get merged).                                                                                |
