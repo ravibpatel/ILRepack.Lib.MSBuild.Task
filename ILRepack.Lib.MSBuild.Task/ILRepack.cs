@@ -215,6 +215,11 @@ namespace ILRepack.Lib.MSBuild.Task
         /// </summary>
         public virtual string RepackDropAttribute { get; set; }
 
+        /// <summary>
+        ///     Merge IL Linker file XML resources from Microsoft assemblies (optional). Same-named XML resources ('ILLink.*.xml') will be combined during merging.
+        /// </summary>
+        public virtual bool MergeIlLinkerFiles { get; set; }
+
         #endregion
 
         #region Public methods
@@ -222,7 +227,7 @@ namespace ILRepack.Lib.MSBuild.Task
         /// <summary>
         ///     Executes ILRepack with specified options.
         /// </summary>
-        /// <returns>Returns true if its successful.</returns>
+        /// <returns>Returns true if it's successful.</returns>
         public override bool Execute()
         {
             var repackOptions = new RepackOptions
@@ -251,7 +256,8 @@ namespace ILRepack.Lib.MSBuild.Task
                 PauseBeforeExit = PauseBeforeExit,
                 OutputFile = _outputFile,
                 AllowWildCards = Wildcards,
-                RepackDropAttribute = RepackDropAttribute
+                RepackDropAttribute = RepackDropAttribute,
+                MergeIlLinkerFiles = MergeIlLinkerFiles
             };
 
             repackOptions.AllowedDuplicateNameSpaces.AddRange(
