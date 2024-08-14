@@ -342,7 +342,7 @@ namespace ILRepack.Lib.MSBuild.Task
                 repackOptions.SearchDirectories = searchPath.ToArray();
 
                 // Attempt to merge assemblies.
-                Log.LogMessage(MessageImportance.High, "Merging {0} assemb{1} to '{2}'",
+                Log.LogMessage(MessageImportance.High, "Merging {0} assembl{1} to '{2}'",
                     InputAssemblies.Length, InputAssemblies.Length != 1 ? "ies" : "y", _outputFile);
 
                 // Measure performance
