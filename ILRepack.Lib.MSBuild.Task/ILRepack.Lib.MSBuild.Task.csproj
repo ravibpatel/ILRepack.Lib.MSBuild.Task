@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
-        <Version>2.0.34.1</Version>
+        <Version>2.0.34.2</Version>
     </PropertyGroup>
 
     <ItemGroup>
@@ -11,7 +11,7 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="ILRepack.Lib" Version="2.0.34"/>
-        <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.10.4"/>
+        <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.11.4"/>
     </ItemGroup>
 
     <ItemGroup>
