@@ -52,9 +52,9 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        ///     Specifies whether to log task messages.
+        ///     Specifies the log task messages importance (High/true by default).
         /// </summary>
-        public virtual bool LogTaskMessage { get; set; } = true;
+        public virtual bool LogTaskMessageImportance { get; set; } = true;
 
         /// <summary>
         ///     Merges types with identical names into one.
@@ -391,7 +391,7 @@ namespace ILRepack.Lib.MSBuild.Task
         /// <param name="messageArgs">The arguments for the message format.</param>
         private void LogMessage(string message, params object[] messageArgs)
         {
-            var importance = LogTaskMessage ? MessageImportance.High : MessageImportance.Low;
+            var importance = LogTaskMessageImportance ? MessageImportance.High : MessageImportance.Low;
             Log.LogMessage(importance, message, messageArgs);
         }
 
