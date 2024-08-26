@@ -1,0 +1,3 @@
+﻿<Project>
+    <UsingTask AssemblyFile="$(MSBuildThisFileDirectory)ILRepack.Lib.MSBuild.Task.dll" TaskName="ILRepack"/>
+</Project>

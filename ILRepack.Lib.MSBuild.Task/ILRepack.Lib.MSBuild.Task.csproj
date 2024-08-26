@@ -18,6 +18,7 @@
         <None Include="build\ILRepack.Lib.MSBuild.Task.nuspec"/>
         <None Include="ILRepack.Config.props"/>
         <None Include="ILRepack.Lib.MSBuild.Task.snk"/>
+        <None Include="ILRepack.Lib.MSBuild.Task.props" CopyToOutputDirectory="PreserveNewest"/>
         <None Include="ILRepack.Lib.MSBuild.Task.targets" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>
 

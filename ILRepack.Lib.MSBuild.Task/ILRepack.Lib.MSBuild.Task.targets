@@ -5,7 +5,6 @@
         <ILRepackTargetsFile Condition="$(ILRepackTargetsFile) == ''">$(ProjectDir)ILRepack.targets</ILRepackTargetsFile>
     </PropertyGroup>
 
-    <UsingTask AssemblyFile="$(MSBuildThisFileDirectory)ILRepack.Lib.MSBuild.Task.dll" TaskName="ILRepack"/>
     <Import Project="$(ILRepackTargetsFile)" Condition="Exists('$(ILRepackTargetsFile)')"/>
     <Target Name="ILRepack" AfterTargets="Build" Condition="$(Configuration.Contains('Release')) and !Exists('$(ILRepackTargetsFile)')">
         <ItemGroup>
