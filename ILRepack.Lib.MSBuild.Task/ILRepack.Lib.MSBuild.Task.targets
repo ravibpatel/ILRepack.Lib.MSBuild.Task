@@ -3,10 +3,14 @@
 
     <PropertyGroup>
         <ILRepackTargetsFile Condition="$(ILRepackTargetsFile) == ''">$(ProjectDir)ILRepack.targets</ILRepackTargetsFile>
+        <ILRepackEnabled Condition="'$(ILRepackEnabled)' == '' and $(Configuration.Contains('Release'))">true</ILRepackEnabled>
+        <ILRepackEnabled Condition="'$(ILRepackEnabled)' == ''">false</ILRepackEnabled>
+        <ILRepackEnabled Condition="Exists('$(ILRepackTargetsFile)')">false</ILRepackEnabled>
+        <ClearOutputDirectory Condition="'$(ClearOutputDirectory)' == ''">true</ClearOutputDirectory>
     </PropertyGroup>
 
     <Import Project="$(ILRepackTargetsFile)" Condition="Exists('$(ILRepackTargetsFile)')"/>
-    <Target Name="ILRepack" AfterTargets="Build" Condition="$(Configuration.Contains('Release')) and !Exists('$(ILRepackTargetsFile)')">
+    <Target Name="ILRepack" AfterTargets="Build" Condition="$(ILRepackEnabled)">
         <ItemGroup>
             <InputAssemblies Include="$(OutputPath)$(TargetName)$(TargetExt)"/>
             <InputAssemblies Include="$(OutputPath)*.dll" Exclude="$(OutputPath)$(TargetName)$(TargetExt)"/>
@@ -25,7 +29,7 @@
     <Target
             AfterTargets="ILRepack"
             Name="CleanReferenceCopyLocalPaths"
-            Condition="$(Configuration.Contains('Release')) and !Exists('$(ILRepackTargetsFile)') and '$(ClearOutputDirectory)' != 'False'">
+            Condition="$(ILRepackEnabled) and $(ClearOutputDirectory)">
         <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')"/>
         <ItemGroup>
             <Directories Include="$([System.IO.Directory]::GetDirectories('$(OutDir)%(DestinationSubDirectory)', '*', System.IO.SearchOption.AllDirectories))"/>
