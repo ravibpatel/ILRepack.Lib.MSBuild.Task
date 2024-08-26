@@ -118,7 +118,7 @@ You can turn this functionality off by setting ClearOutputDirectory to False as 
 | KeyFile                        | Specifies a key file to sign the output assembly.                                                                                                          |
 | LibraryPath                    | List of paths to use as "include directories" when attempting to merge assemblies.                                                                         |
 | LogFile                        | Specifies a log file to output log information.                                                                                                            |
-| LogTaskMessageImportance       | Specifies the log message importance in the task. (`true` by default)                                                                                      | 
+| LogImportance                  | Specifies the log message importance in the task. (`high` by default, `normal` and `low` available)                                                        | 
 | MergeIlLinkerFiles             | Merge IL Linker file XML resources from Microsoft assemblies (optional). Same-named XML resources ('ILLink.*.xml') will be combined during merging.        |
 | NoRepackRes                    | Does not add the embedded resource 'ILRepack.List' with all merged assembly names.                                                                         |
 | OutputFile                     | Output name for the merged assembly.                                                                                                                       |

@@ -19,6 +19,7 @@ namespace ILRepack.Lib.MSBuild.Task
         private string _keyContainer;
         private ILRepacking.ILRepack.Kind _targetKind;
         private string _excludeFileTmpPath;
+        private MessageImportance _messageImportance = MessageImportance.High; 
 
         #endregion
 
@@ -52,9 +53,12 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        ///     Specifies the log task messages importance (High/true by default).
+        ///     Specifies the log task messages importance (High by default).
         /// </summary>
-        public virtual bool LogTaskMessageImportance { get; set; } = true;
+        public virtual string LogImportance { 
+            get => _messageImportance.ToString();
+            set => Enum.TryParse(value, true, out _messageImportance); 
+        }
 
         /// <summary>
         ///     Merges types with identical names into one.
@@ -391,9 +395,10 @@ namespace ILRepack.Lib.MSBuild.Task
         /// <param name="messageArgs">The arguments for the message format.</param>
         private void LogMessage(string message, params object[] messageArgs)
         {
-            var importance = LogTaskMessageImportance ? MessageImportance.High : MessageImportance.Low;
-            Log.LogMessage(importance, message, messageArgs);
+            Log.LogMessage(_messageImportance, message, messageArgs);
         }
+
+
 
         /// <summary>
         ///     Parses the command line options for AllowedDuplicateNameSpaces.
