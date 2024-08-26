@@ -80,13 +80,22 @@ option only applies if you are using default targets file provided in NuGet pack
 <KeyFile>$(ProjectDir)ILRepack.snk</KeyFile>
 ```
 
+### Disable default ILRepack Target
+
+By default if no "ILRepack.targets" file is found a default ILRepack Target runs after build if the configuration contains "Release".
+You can disable this behavior by setting the following property to `false` or `true` to enable it.
+
+```xml
+<ILRepackEnabled>false</ILRepackEnabled>
+```
+
 ### Specify whether to clear directory after merging
 
 If you are using default targets file then you may notice that it clears Output directory after merging dependencies.
 You can turn this functionality off by setting ClearOutputDirectory to False as shown below.
 
 ```xml
-<ClearOutputDirectory>False</ClearOutputDirectory>
+<ClearOutputDirectory>false</ClearOutputDirectory>
 ```
 
 ## Task options
