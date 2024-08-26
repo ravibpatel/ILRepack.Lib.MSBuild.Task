@@ -52,6 +52,11 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
+        ///     Specifies whether to log task messages.
+        /// </summary>
+        public virtual bool LogTaskMessage { get; set; } = true;
+
+        /// <summary>
         ///     Merges types with identical names into one.
         /// </summary>
         public virtual bool Union { get; set; }
@@ -300,7 +305,7 @@ namespace ILRepack.Lib.MSBuild.Task
                         throw new Exception($"Unable to resolve assembly '{assemblies[i]}'");
                     }
 
-                    Log.LogMessage(MessageImportance.High, "Added assembly '{0}'", assemblies[i]);
+                    LogMessage("Added assembly '{0}'", assemblies[i]);
                 }
 
                 // List of regex to compare against FullName of types NOT to internalize
@@ -318,7 +323,7 @@ namespace ILRepack.Lib.MSBuild.Task
                                     $"Invalid internalize exclude pattern at item index {i}. Pattern cannot be blank.");
                             }
 
-                            Log.LogMessage(MessageImportance.High,
+                            LogMessage(
                                 "Excluding namespaces/types matching pattern '{0}' from being internalized",
                                 internalizeExclude[i]);
                         }
@@ -348,7 +353,7 @@ namespace ILRepack.Lib.MSBuild.Task
                 repackOptions.SearchDirectories = searchPath.ToArray();
 
                 // Attempt to merge assemblies.
-                Log.LogMessage(MessageImportance.High, "Merging {0} assembl{1} to '{2}'",
+                LogMessage("Merging {0} assembl{1} to '{2}'",
                     InputAssemblies.Length, InputAssemblies.Length != 1 ? "ies" : "y", _outputFile);
 
                 // Measure performance
@@ -365,7 +370,7 @@ namespace ILRepack.Lib.MSBuild.Task
 
                 stopWatch.Stop();
 
-                Log.LogMessage(MessageImportance.High, "Merge succeeded in {0} s", stopWatch.Elapsed.TotalSeconds);
+                LogMessage("Merge succeeded in {0} s", stopWatch.Elapsed.TotalSeconds);
                 logger.Close();
 
                 return true;
@@ -379,9 +384,16 @@ namespace ILRepack.Lib.MSBuild.Task
             }
         }
 
-        #endregion
-
-        #region Private methods
+        /// <summary>
+        /// Logs a message with the specified format and arguments.
+        /// </summary>
+        /// <param name="message">The message format.</param>
+        /// <param name="messageArgs">The arguments for the message format.</param>
+        private void LogMessage(string message, params object[] messageArgs)
+        {
+            var importance = LogTaskMessage ? MessageImportance.High : MessageImportance.Low;
+            Log.LogMessage(importance, message, messageArgs);
+        }
 
         /// <summary>
         ///     Parses the command line options for AllowedDuplicateNameSpaces.
