@@ -398,8 +398,6 @@ namespace ILRepack.Lib.MSBuild.Task
             Log.LogMessage(_messageImportance, message, messageArgs);
         }
 
-
-
         /// <summary>
         ///     Parses the command line options for AllowedDuplicateNameSpaces.
         /// </summary>
