@@ -80,13 +80,22 @@ option only applies if you are using default targets file provided in NuGet pack
 <KeyFile>$(ProjectDir)ILRepack.snk</KeyFile>
 ```
 
+### Disable default ILRepack Target
+
+By default if no "ILRepack.targets" file is found a default ILRepack Target runs after build if the configuration contains "Release".
+You can disable this behavior by setting the following property to `false` or `true` to enable it.
+
+```xml
+<ILRepackEnabled>false</ILRepackEnabled>
+```
+
 ### Specify whether to clear directory after merging
 
 If you are using default targets file then you may notice that it clears Output directory after merging dependencies.
 You can turn this functionality off by setting ClearOutputDirectory to False as shown below.
 
 ```xml
-<ClearOutputDirectory>False</ClearOutputDirectory>
+<ClearOutputDirectory>false</ClearOutputDirectory>
 ```
 
 ## Task options
@@ -109,6 +118,7 @@ You can turn this functionality off by setting ClearOutputDirectory to False as 
 | KeyFile                        | Specifies a key file to sign the output assembly.                                                                                                          |
 | LibraryPath                    | List of paths to use as "include directories" when attempting to merge assemblies.                                                                         |
 | LogFile                        | Specifies a log file to output log information.                                                                                                            |
+| LogImportance                  | Specifies the log message importance in the task. (`high` by default, `normal` and `low` available)                                                        | 
 | MergeIlLinkerFiles             | Merge IL Linker file XML resources from Microsoft assemblies (optional). Same-named XML resources ('ILLink.*.xml') will be combined during merging.        |
 | NoRepackRes                    | Does not add the embedded resource 'ILRepack.List' with all merged assembly names.                                                                         |
 | OutputFile                     | Output name for the merged assembly.                                                                                                                       |

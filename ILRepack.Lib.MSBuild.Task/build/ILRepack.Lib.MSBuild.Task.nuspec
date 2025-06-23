@@ -19,6 +19,7 @@
     </metadata>
     <files>
         <file src="ILRepack.Lib.MSBuild.Task.dll" target="build"/>
+        <file src="ILRepack.Lib.MSBuild.Task.props" target="build"/>
         <file src="ILRepack.Lib.MSBuild.Task.targets" target="build"/>
     </files>
 </package>
