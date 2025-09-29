@@ -2,15 +2,15 @@
 
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
-        <Version>2.0.43</Version>
+        <Version>2.0.44</Version>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ILRepack" Version="2.0.43" GeneratePathProperty="true">
+        <PackageReference Include="ILRepack" Version="2.0.44" GeneratePathProperty="true">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="ILRepack.Lib" Version="2.0.43"/>
+        <PackageReference Include="ILRepack.Lib" Version="2.0.44"/>
         <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.11.4"/>
     </ItemGroup>
 
