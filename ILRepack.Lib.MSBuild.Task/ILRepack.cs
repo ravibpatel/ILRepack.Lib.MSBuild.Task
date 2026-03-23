@@ -76,7 +76,7 @@ namespace ILRepack.Lib.MSBuild.Task
         public virtual bool CopyAttributes { get; set; }
 
         /// <summary>
-        ///     Stores file:line debug information as type/method attributes (requires PDB)
+        ///     Stores file:line debug information as type/method attributes (requires PDB).
         /// </summary>
         public virtual bool LineIndexation { get; set; }
 

@@ -112,6 +112,7 @@ You can turn this functionality off by setting ClearOutputDirectory to False as 
 | MergeIlLinkerFiles             | Merge IL Linker file XML resources from Microsoft assemblies (optional). Same-named XML resources ('ILLink.*.xml') will be combined during merging.        |
 | NoRepackRes                    | Does not add the embedded resource 'ILRepack.List' with all merged assembly names.                                                                         |
 | OutputFile                     | Output name for the merged assembly.                                                                                                                       |
+| LineIndexation                 | Stores file:line debug information as type/method attributes (requires PDB).                                                                               |
 | Parallel                       | Use as many CPUs as possible to merge the assemblies.                                                                                                      |
 | PauseBeforeExit                | Pause execution once completed (good for debugging).                                                                                                       |
 | RenameInternalized             | Rename all internalized types (to be used when Internalize is enabled).                                                                                    |
