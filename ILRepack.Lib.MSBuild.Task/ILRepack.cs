@@ -76,6 +76,11 @@ namespace ILRepack.Lib.MSBuild.Task
         public virtual bool CopyAttributes { get; set; }
 
         /// <summary>
+        ///     Stores file:line debug information as type/method attributes (requires PDB)
+        /// </summary>
+        public virtual bool LineIndexation { get; set; }
+
+        /// <summary>
         ///     Allows multiple attributes (if type allows).
         /// </summary>
         public virtual bool AllowMultiple { get; set; }
@@ -257,7 +262,8 @@ namespace ILRepack.Lib.MSBuild.Task
                 OutputFile = _outputFile,
                 AllowWildCards = Wildcards,
                 RepackDropAttribute = RepackDropAttribute,
-                MergeIlLinkerFiles = MergeIlLinkerFiles
+                MergeIlLinkerFiles = MergeIlLinkerFiles,
+                LineIndexation = LineIndexation,
             };
 
             repackOptions.AllowedDuplicateNameSpaces.AddRange(
