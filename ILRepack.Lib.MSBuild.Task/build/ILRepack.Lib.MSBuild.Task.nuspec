@@ -19,8 +19,7 @@
     </metadata>
     <files>
         <file src="ILRepack.Lib.MSBuild.Task.dll" target="build"/>
-        <file src="ILRepack.Lib.MSBuild.Task.dll" target="buildCrossTargeting"/>
-		<file src="ILRepack.Lib.MSBuild.Task.targets" target="build"/>
-		<file src="ILRepack.Lib.MSBuild.Task.targets" target="buildCrossTargeting"/>
+        <file src="ILRepack.Lib.MSBuild.Task.targets" target="build"/>
+        <file src="ILRepack.Lib.MSBuild.Task.multitarget.targets" target="buildMultiTargeting\ILRepack.Lib.MSBuild.Task.targets"/>
     </files>
 </package>
