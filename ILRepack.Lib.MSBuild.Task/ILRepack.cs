@@ -71,7 +71,7 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        ///     Copy assembly attributes (by default only the primary assembly attributes are copied).
+        ///     Copy assembly attributes (by default, only the primary assembly attributes are copied).
         /// </summary>
         public virtual bool CopyAttributes { get; set; }
 
@@ -125,7 +125,7 @@ namespace ILRepack.Lib.MSBuild.Task
         /// <summary>
         ///     List of paths to use as "include directories" when attempting to merge assemblies.
         /// </summary>
-        public virtual ITaskItem[] LibraryPath { get; set; } = new ITaskItem[0];
+        public virtual ITaskItem[] LibraryPath { get; set; } = Array.Empty<ITaskItem>();
 
         /// <summary>
         ///     Set all types but the ones from the first assembly 'internal'.
@@ -167,15 +167,15 @@ namespace ILRepack.Lib.MSBuild.Task
         ///     List of assemblies that will be merged.
         /// </summary>
         [Required]
-        public virtual ITaskItem[] InputAssemblies { get; set; } = new ITaskItem[0];
+        public virtual ITaskItem[] InputAssemblies { get; set; } = Array.Empty<ITaskItem>();
 
         /// <summary>
-        ///     Set the key file, but don't sign the assembly.
+        ///     Set the key file but don't sign the assembly.
         /// </summary>
         public virtual bool DelaySign { get; set; }
 
         /// <summary>
-        ///     Allows duplicating resources in the output assembly (by default they're ignored).
+        ///     Allows duplicating resources in the output assembly (by default, they're ignored).
         /// </summary>
         public virtual bool AllowDuplicateResources { get; set; }
 
@@ -186,7 +186,7 @@ namespace ILRepack.Lib.MSBuild.Task
         public virtual string AllowedDuplicateNamespaces { get; set; }
 
         /// <summary>
-        ///     Allows assemblies with Zero PeKind (but obviously only IL will get merged).
+        ///     Allows assemblies with Zero PeKind (but only IL will get merged).
         /// </summary>
         public virtual bool ZeroPeKind { get; set; }
 
@@ -410,7 +410,7 @@ namespace ILRepack.Lib.MSBuild.Task
         }
 
         /// <summary>
-        ///     Returns path respective to current working directory.
+        ///     Returns path respective to the current working directory.
         /// </summary>
         /// <param name="path">Relative path to current working directory</param>
         /// <returns></returns>

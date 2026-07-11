@@ -12,8 +12,8 @@ MSBuild task for [ILRepack](https://github.com/gluck/il-repack) which is an open
 
 ## Usage
 
-You just need to install NuGet package to merge all your project dependencies. If you want to customize the process then
-you can create a file named "ILRepack.targets" in your project folder. You can create it like shown below.
+You need to install the NuGet package to merge all your project dependencies. If you want to customize the process, then
+you can create a file named `ILRepack.targets` in your project folder. You can create it like shown below.
 
 ### Example "ILRepack.targets"
 
@@ -48,7 +48,7 @@ you can create a file named "ILRepack.targets" in your project folder. You can c
 
 ## Configuration
 
-You need to create "ILRepack.Config.props" file in your project folder to configure the behavior of
+You need to create the `ILRepack.Config.props` file in your project folder to configure the behavior of
 ILRepack.Lib.MSBuild.Task.
 
 ```xml
@@ -59,31 +59,31 @@ ILRepack.Lib.MSBuild.Task.
 </Project>
 ```
 
-You can specify following options inside the &lt;PropertyGroup&gt; element to configure the behavior of the ILRepack
+You can specify the following options inside the `<PropertyGroup>` element to configure the behavior of the ILRepack
 task.
 
 ### Specify your custom Targets file path
 
-If you don't want to add "ILRepack.targets" file in your project folder then you can specify your targets file path as
-shown below.
+If you don't want to add `ILRepack.targets` file in your project folder, then you can specify your custom targets file
+path as shown below.
 
 ```xml
 <ILRepackTargetsFile>$(SolutionDir)ILRepack.targets</ILRepackTargetsFile>
 ```
 
-### Specify Key File to use for signing
+### Specify the Key File to use for signing
 
 You can specify the path of the SNK file you want to use for signing your assembly as shown below. This configuration
-option only applies if you are using default targets file provided in NuGet package.
+option only applies if you are using the default targets file provided in the NuGet package.
 
 ```xml
 <KeyFile>$(ProjectDir)ILRepack.snk</KeyFile>
 ```
 
-### Specify whether to clear directory after merging
+### Specify whether to clear the directory after merging
 
-If you are using default targets file then you may notice that it clears Output directory after merging dependencies.
-You can turn this functionality off by setting ClearOutputDirectory to False as shown below.
+If you are using the default targets file, then you may notice that it clears the Output directory after merging
+dependencies. You can turn this functionality off by setting ClearOutputDirectory to False as shown below.
 
 ```xml
 <ClearOutputDirectory>False</ClearOutputDirectory>
