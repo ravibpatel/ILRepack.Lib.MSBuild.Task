@@ -1,13 +1,13 @@
 ﻿<Project>
-    <Import Project="$(ProjectDir)ILRepack.Config.props" Condition="Exists('$(ProjectDir)ILRepack.Config.props')"/>
+    <Import Project="$(MSBuildProjectDirectory)\ILRepack.Config.props" Condition="Exists('$(MSBuildProjectDirectory)\ILRepack.Config.props')"/>
 
     <PropertyGroup>
-        <ILRepackTargetsFile Condition="$(ILRepackTargetsFile) == ''">$(ProjectDir)ILRepack.targets</ILRepackTargetsFile>
+        <ILRepackTargetsFile Condition="$(ILRepackTargetsFile) == ''">$(MSBuildProjectDirectory)\ILRepack.targets</ILRepackTargetsFile>
     </PropertyGroup>
 
     <UsingTask AssemblyFile="$(MSBuildThisFileDirectory)ILRepack.Lib.MSBuild.Task.dll" TaskName="ILRepack"/>
     <Import Project="$(ILRepackTargetsFile)" Condition="Exists('$(ILRepackTargetsFile)')"/>
-    <Target Name="ILRepack" AfterTargets="Build" Condition="$(Configuration.Contains('Release')) and !Exists('$(ILRepackTargetsFile)')">
+    <Target Name="ILRepack" AfterTargets="Build" Condition="$(Configuration.Contains('Release')) and !Exists('$(ILRepackTargetsFile)') and '$(IsCrossTargetingBuild)' != 'true'">
         <ItemGroup>
             <InputAssemblies Include="$(OutputPath)$(TargetName)$(TargetExt)"/>
             <InputAssemblies Include="$(OutputPath)*.dll" Exclude="$(OutputPath)$(TargetName)$(TargetExt)"/>
@@ -26,7 +26,7 @@
     <Target
             AfterTargets="ILRepack"
             Name="CleanReferenceCopyLocalPaths"
-            Condition="$(Configuration.Contains('Release')) and !Exists('$(ILRepackTargetsFile)') and '$(ClearOutputDirectory)' != 'False'">
+            Condition="$(Configuration.Contains('Release')) and !Exists('$(ILRepackTargetsFile)') and '$(ClearOutputDirectory)' != 'False' and '$(IsCrossTargetingBuild)' != 'true'">
         <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')"/>
         <ItemGroup>
             <Directories Include="$([System.IO.Directory]::GetDirectories('$(OutDir)%(DestinationSubDirectory)', '*', System.IO.SearchOption.AllDirectories))"/>

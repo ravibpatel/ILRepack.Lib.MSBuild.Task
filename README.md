@@ -21,7 +21,7 @@ you can create a file named "ILRepack.targets" in your project folder. You can c
 <?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <!-- ILRepack -->
-    <Target Name="ILRepacker" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+    <Target Name="ILRepacker" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' and '$(IsCrossTargetingBuild)' != 'true'">
         <ItemGroup>
             <InputAssemblies Include="$(OutputPath)\ExampleAssemblyToMerge1.dll" />
             <InputAssemblies Include="$(OutputPath)\ExampleAssemblyToMerge2.dll" />
