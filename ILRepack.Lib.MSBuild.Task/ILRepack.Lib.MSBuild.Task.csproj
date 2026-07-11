@@ -19,6 +19,7 @@
         <None Include="ILRepack.Config.props"/>
         <None Include="ILRepack.Lib.MSBuild.Task.snk"/>
         <None Include="ILRepack.Lib.MSBuild.Task.targets" CopyToOutputDirectory="PreserveNewest"/>
+        <None Include="ILRepack.Lib.MSBuild.Task.multitarget.targets" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>
 
     <Target Name="Repack" AfterTargets="Build">
