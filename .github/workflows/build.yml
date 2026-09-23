@@ -1,0 +1,82 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+    tags: [ 'v*' ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore strong name key
+        id: snk
+        env:
+          SNK_BASE64: ${{ secrets.SNK_BASE64 }}
+        run: |
+          if ($env:SNK_BASE64) {
+            [IO.File]::WriteAllBytes("$PWD\ILRepack.Lib.MSBuild.Task\ILRepack.Lib.MSBuild.Task.snk", [Convert]::FromBase64String($env:SNK_BASE64))
+            "signed=true" >> $env:GITHUB_OUTPUT
+          } elseif ($env:GITHUB_REF -like 'refs/tags/v*') {
+            Write-Output '::error::The SNK_BASE64 secret is required to sign release packages.'
+            exit 1
+          } else {
+            # Secrets are not passed to pull requests from forks.
+            Write-Output '::warning::The SNK_BASE64 secret is not available, so the assembly will not be strong-name signed.'
+          }
+
+      - name: Build
+        run: dotnet build ILRepack.Lib.MSBuild.Task.sln --configuration Release
+
+      - name: Verify strong name signature
+        if: steps.snk.outputs.signed == 'true'
+        run: |
+          $sn = Get-ChildItem "${env:ProgramFiles(x86)}\Microsoft SDKs\Windows\*\bin\NETFX * Tools\sn.exe" | Select-Object -Last 1
+          & $sn.FullName -vf ILRepack.Lib.MSBuild.Task\bin\Release\net472\ILRepack.Lib.MSBuild.Task.dll
+
+      - name: Upload package
+        uses: actions/upload-artifact@v7
+        with:
+          name: nupkg
+          path: ILRepack.Lib.MSBuild.Task/bin/Release/net472/*.nupkg
+          if-no-files-found: error
+
+  publish:
+    # Only version tags (e.g. v2.0.48, created by publishing a GitHub release) are pushed to nuget.org.
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-24.04
+    environment: release
+    permissions:
+      id-token: write # Lets NuGet/login exchange the GitHub OIDC token for a short-lived nuget.org API key.
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: nupkg
+
+      - name: Verify package version matches tag
+        run: |
+          if [ ! -f "ILRepack.Lib.MSBuild.Task.${GITHUB_REF_NAME#v}.nupkg" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match the built package: $(ls -- *.nupkg)"
+            exit 1
+          fi
+
+      - name: NuGet login
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Push to nuget.org
+        run: dotnet nuget push "ILRepack.Lib.MSBuild.Task.${GITHUB_REF_NAME#v}.nupkg" --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json

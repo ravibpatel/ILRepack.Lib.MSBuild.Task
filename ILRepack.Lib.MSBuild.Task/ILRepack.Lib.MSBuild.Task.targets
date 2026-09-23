@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <UsingTask AssemblyFile="$(MSBuildThisFileDirectory)ILRepack.Lib.MSBuild.Task.dll" TaskName="ILRepack"/>
-    <Import Project="$(ILRepackTargetsFile)" Condition="Exists('$(ILRepackTargetsFile)')"/>
+    <Import Project="$(ILRepackTargetsFile)" Condition="Exists('$(ILRepackTargetsFile)') and '$(IsCrossTargetingBuild)' != 'true'"/>
     <Target Name="ILRepack" AfterTargets="Build" Condition="$(Configuration.Contains('Release')) and !Exists('$(ILRepackTargetsFile)') and '$(IsCrossTargetingBuild)' != 'true'">
         <ItemGroup>
             <InputAssemblies Include="$(OutputPath)$(TargetName)$(TargetExt)"/>

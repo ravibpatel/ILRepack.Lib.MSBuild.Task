@@ -2,15 +2,21 @@
 
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
-        <Version>2.0.46</Version>
+        <Version>2.0.48</Version>
+    </PropertyGroup>
+
+    <!-- The key is not in source control. CI restores it from the SNK_BASE64 secret; without it the assembly is built unsigned. -->
+    <PropertyGroup Condition="Exists('$(MSBuildThisFileDirectory)ILRepack.Lib.MSBuild.Task.snk')">
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)ILRepack.Lib.MSBuild.Task.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ILRepack" Version="2.0.46" GeneratePathProperty="true">
+        <PackageReference Include="ILRepack" Version="2.0.48" GeneratePathProperty="true">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="ILRepack.Lib" Version="2.0.46"/>
+        <PackageReference Include="ILRepack.Lib" Version="2.0.48"/>
         <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.11.48"/>
     </ItemGroup>
 
@@ -23,7 +29,10 @@
     </ItemGroup>
 
     <Target Name="Repack" AfterTargets="Build">
-        <Exec Command="&quot;$(ILRepack)&quot; /out:ILRepack.Lib.MSBuild.Task.dll ILRepack.Lib.MSBuild.Task.dll ILRepack.dll"
+        <PropertyGroup>
+            <RepackKeyFileOption Condition="'$(SignAssembly)' == 'true'">/keyfile:&quot;$(AssemblyOriginatorKeyFile)&quot; </RepackKeyFileOption>
+        </PropertyGroup>
+        <Exec Command="&quot;$(ILRepack)&quot; $(RepackKeyFileOption)/out:ILRepack.Lib.MSBuild.Task.dll ILRepack.Lib.MSBuild.Task.dll ILRepack.dll"
               WorkingDirectory="$(OutDir)"
               ConsoleToMSBuild="True"/>
     </Target>
